@@ -65,11 +65,23 @@ namespace MailSender
                         break;
                     }
             }
-            client.Credentials = new NetworkCredential
+            client.UseDefaultCredentials = false;
+            switch (AuthMetod.SelectedIndex)
             {
-                UserName = Login.Text,
-                SecurePassword = Password.SecurePassword
-            };
+                case 0: {
+                        client.Credentials = new NetworkCredential
+                        {
+                            UserName = Login.Text,
+                            SecurePassword = Password.SecurePassword
+                        };
+                        break;
+                    }
+                case 1:
+                    {
+                        client.Credentials = new NetworkCredential(Login.Text, Password.Password);
+                        break;
+                    }
+            }
             try
             {
                 client.Send(message);
@@ -77,8 +89,9 @@ namespace MailSender
                 SendTo.Text = "";
                 Message.Text = "";
                 Subject.Text = "";
-            } catch
+            } catch (Exception z)
             {
+                Message.Text = z.ToString();
                 StatusBarSendMessage("Все сломалось, обратитесь к разработчику", Brushes.Red);
             }
         }

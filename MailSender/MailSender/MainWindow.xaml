@@ -32,6 +32,11 @@
                             <ComboBoxItem>SSL</ComboBoxItem>
                             <ComboBoxItem>NO</ComboBoxItem>
                         </ComboBox>
+                        <TextBlock Text="Аутентификация" Margin="2,0"/>
+                        <ComboBox Name="AuthMetod" SelectedIndex="0">
+                            <ComboBoxItem>Зашифрованный пароль</ComboBoxItem>
+                            <ComboBoxItem>Обычный пароль (Не зашифрованный)</ComboBoxItem>
+                        </ComboBox>
 
                     </StackPanel>
 
