@@ -30,7 +30,6 @@
                         <TextBlock Text="Шифрование" Width="80"/>
                         <ComboBox Name="SecureType" SelectedIndex="0">
                             <ComboBoxItem>SSL</ComboBoxItem>
-                            <ComboBoxItem>TLS</ComboBoxItem>
                             <ComboBoxItem>NO</ComboBoxItem>
                         </ComboBox>
 
@@ -40,7 +39,7 @@
             </StackPanel>
         </GroupBox>
         <StatusBar DockPanel.Dock="Bottom">
-            <TextBlock Text="Ready"/>
+            <TextBlock x:Name="StatusBarMessage" Text="Ready"/>
         </StatusBar>
         <GroupBox Header="Сообщение">
             <DockPanel>
@@ -50,7 +49,11 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
                     <Button Content="Отправить" Margin="2" Click="Button_Click"/>
-                    <Button Content="Очистить" Margin="2"/>
+                    <Button Content="Очистить" Margin="2" Click="Button_Click_1"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="2">
+                    <TextBlock Text="Заголовок письма: "/>
+                    <TextBox x:Name="Subject" Width="500"/>
                 </StackPanel>
                 <TextBox x:Name="Message" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
             </DockPanel>    
