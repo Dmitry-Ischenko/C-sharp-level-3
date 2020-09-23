@@ -12,23 +12,23 @@
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <TextBlock Text="Логин:" Width="50"/>
-                        <TextBox Width="200"/>
+                        <TextBox x:Name="Login" Width="200"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <TextBlock Text="Пароль:" Width="50"/>
-                        <PasswordBox Width="200"/>
+                        <PasswordBox x:Name="Password" Width="200"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <TextBlock Text="SMTP Server:" Width="80"/>
-                        <TextBox Width="200"/>
+                        <TextBox x:Name="Server" Width="200"/>
                         <TextBlock Text="Port:" Width="30"/>
-                        <TextBox Width="30"/>
+                        <TextBox x:Name="port" Width="30"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <TextBlock Text="Шифрование" Width="80"/>
-                        <ComboBox SelectedIndex="0">
+                        <ComboBox Name="SecureType" SelectedIndex="0">
                             <ComboBoxItem>SSL</ComboBoxItem>
                             <ComboBoxItem>TLS</ComboBoxItem>
                             <ComboBoxItem>NO</ComboBoxItem>
@@ -46,13 +46,13 @@
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="2">
                     <TextBlock Text="Кому:"/>
-                    <TextBox Width="200"/>
+                    <TextBox x:Name="SendTo" Width="200"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
-                    <Button Content="Отправить" Margin="2"/>
+                    <Button Content="Отправить" Margin="2" Click="Button_Click"/>
                     <Button Content="Очистить" Margin="2"/>
                 </StackPanel>
-                <TextBox AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                <TextBox x:Name="Message" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
             </DockPanel>    
         </GroupBox>
     </DockPanel>
