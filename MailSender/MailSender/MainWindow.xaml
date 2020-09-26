@@ -63,10 +63,10 @@
                     <GroupBox Header="Получатели">
                         <DockPanel>
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                <Button Content="Сохранить как"/>
-                                <Button Content="Добавить из файла"/>
-                                <Button Content="Загрузить из файла"/>
-                                <Button Content="Очистить"/>
+                                <Button Content="Сохранить как" IsEnabled="False"/>
+                                <Button Content="Добавить из файла" IsEnabled="False"/>
+                                <Button Content="Загрузить из файла" IsEnabled="False"/>
+                                <Button Content="Очистить" IsEnabled="False"/>
                             </StackPanel>
                             <DataGrid AutoGenerateColumns="False">
                                 <DataGrid.Columns>
