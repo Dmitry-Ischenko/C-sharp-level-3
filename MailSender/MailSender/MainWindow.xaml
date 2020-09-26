@@ -99,12 +99,15 @@
                                 <Button Content="Загрузить из файла" IsEnabled="False"/>
                                 <Button Content="Очистить" IsEnabled="False"/>
                             </StackPanel>
-                            <DataGrid AutoGenerateColumns="False">
+                            <DataGrid AutoGenerateColumns="False" 
+                                      ItemsSource="{Binding Source={x:Static data:ProgramData.RecipientsCollection}}"
+                                      GridLinesVisibility="Vertical"
+                                      AlternatingRowBackground="LightBlue"
+                                      VerticalGridLinesBrush="Gray">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="N"/>
-                                    <DataGridTextColumn Header="Имя получателя"/>
-                                    <DataGridTextColumn Header="Адрес получателя"/>
-                                    <DataGridCheckBoxColumn Header="Вкл"/>
+                                    <DataGridCheckBoxColumn Header="Вкл" Binding="{Binding Active}"/>
+                                    <DataGridTextColumn Header="Имя получателя" Binding="{Binding Name}" Width="1*"/>
+                                    <DataGridTextColumn Header="Адрес получателя" Binding="{Binding Address}" Width="1*"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </DockPanel>
@@ -117,15 +120,29 @@
                         <StackPanel Orientation="Vertical">
                             <Calendar x:Name="Calendar"/>
                             <TextBlock Text="Адрес отправителя"/>
-                            <ComboBox SelectedIndex="0">
-                                <ComboBoxItem Content="dmitry@test.ru"/>
+                            <ComboBox SelectedIndex="0" ItemsSource="{Binding Source={x:Static data:ProgramData.SendersCollection}}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate DataType="m:Sender">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}">
+                                                <TextBlock.ToolTip>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock Text="{Binding Name}"/>
+                                                        <TextBlock Text="{Binding Address}"/>
+                                                        <TextBlock Text="{Binding Server}"/>
+                                                    </StackPanel>
+                                                </TextBlock.ToolTip>
+                                                </TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
                             </ComboBox>
                             <TextBlock Text="Сообщение"/>
-                            <ComboBox SelectedIndex="0">
-                                <ComboBoxItem Content="Купите слона"/>
-                            </ComboBox>
-                            <Button Content="Отправить сейчас"/>
-                            <Button Content="Добавить задание"/>
+                            <ComboBox SelectedIndex="0" 
+                                      ItemsSource="{Binding Source={x:Static data:ProgramData.MessagesCollection}}" 
+                                      DisplayMemberPath="Subject"/>
+                            <Button Content="Отправить сейчас" Margin="0,2,0,0"/>
+                            <Button Content="Добавить задание" Margin="0,2,0,0"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Задания">
@@ -197,18 +214,27 @@
             </TabItem>
             <TabItem Header="Письма">
                 <DockPanel>
-                    <GroupBox Header="Список писем" DockPanel.Dock="Left">
-                        <ListBox>
-                            
+                    <GroupBox Header="Список писем" DockPanel.Dock="Left" MaxWidth="200">
+                        <ListBox Name="MessagesList" 
+                                 ItemsSource="{Binding Source={x:Static data:ProgramData.MessagesCollection}}"
+                                 DisplayMemberPath="Subject">
                         </ListBox>
                     </GroupBox>
                     <GroupBox Header="Редактор">
                         <DockPanel>
                             <GroupBox Header="Заголовок" DockPanel.Dock="Top">
-                                <TextBox/>
+                                <TextBox Text="{Binding SelectedItem.Subject, ElementName=MessagesList, UpdateSourceTrigger=PropertyChanged}"/>
                             </GroupBox>
                             <GroupBox Header="тело письма">
-                                <TextBox AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                                <DockPanel>
+                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+                                        <Button Margin="2" Click="OnAddMessage">Добавить</Button>
+                                        <Button Margin="2" Click="OnDeleteSelectedMessage">Удалить</Button>
+                                    </StackPanel>
+                                    <TextBox AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                                         Text="{Binding SelectedItem.Body, ElementName=MessagesList}"/>
+                                </DockPanel>
+                                
                             </GroupBox>
                         </DockPanel>
                     </GroupBox>

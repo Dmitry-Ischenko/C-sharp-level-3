@@ -37,8 +37,7 @@ namespace MailSender
 
         private void OnAddSenderInCollection(object sender, RoutedEventArgs e)
         {
-            int _port;
-            if (!Int32.TryParse(PortBox.Text,out _port))
+            if (!Int32.TryParse(PortBox.Text, out int _port))
             {
                 return;
             }
@@ -51,7 +50,6 @@ namespace MailSender
                 item.Port = _port;
                 item.Server = ServerBox.Text;
                 item.UseSSl = SslBox.IsEnabled;
-                UserSelected.SelectedIndex = ProgramData.SendersCollection.IndexOf(item);
             }
             catch
             {
@@ -67,6 +65,27 @@ namespace MailSender
                 ProgramData.SendersCollection.Add(_sender);
                 UserSelected.SelectedIndex = ProgramData.SendersCollection.Count - 1;
             }
+        }
+
+        private void OnDeleteSelectedMessage(object sender, RoutedEventArgs e)
+        {
+            if (MessagesList.SelectedItem is Message _message)
+            {
+                int index = MessagesList.SelectedIndex;
+                ProgramData.MessagesCollection.Remove(_message);
+                int count = ProgramData.MessagesCollection.Count;
+                if (index >= count)
+                {
+                    index = count - 1;
+                }
+                MessagesList.SelectedIndex = index;
+            }
+        }
+
+        private void OnAddMessage(object sender, RoutedEventArgs e)
+        {
+            ProgramData.MessagesCollection.Add(new Message());
+            MessagesList.SelectedIndex = ProgramData.MessagesCollection.Count - 1;
         }
     }
 }
