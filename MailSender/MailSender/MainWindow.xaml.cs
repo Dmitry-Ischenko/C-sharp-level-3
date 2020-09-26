@@ -18,24 +18,6 @@ namespace MailSender
         public MainWindow()
         {
             InitializeComponent();
-            ProgramData.SendersCollection.Add(new Sender
-            {
-                Name = "Дмитрий",
-                Address = "dmitry@test.ru",
-                Password = "test",
-                Port = 456,
-                Server = "smtp.yandex.ru",
-                UseSSl = true
-            });
-            ProgramData.SendersCollection.Add(new Sender
-            {
-                Name = "Валера",
-                Address = "valera@gmail.ru",
-                Password = "test",
-                Port = 587,
-                Server = "smtp.gmail.ru",
-                UseSSl = true
-            });
         }        
     }
 }
