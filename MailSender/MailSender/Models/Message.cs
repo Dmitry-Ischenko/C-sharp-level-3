@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MailSender.Models.Base;
 
 namespace MailSender.Models
 {
-    public class Message
+    class Message: ModelBase
     {
         public string Subject { get; set; }
 
