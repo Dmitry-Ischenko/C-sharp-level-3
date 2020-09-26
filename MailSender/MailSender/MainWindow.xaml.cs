@@ -87,5 +87,26 @@ namespace MailSender
             ProgramData.MessagesCollection.Add(new Message());
             MessagesList.SelectedIndex = ProgramData.MessagesCollection.Count - 1;
         }
+
+        private void OnTestMessage(object sender, RoutedEventArgs e)
+        {
+            MailClient.lib.MailSender mailSender = new MailClient.lib.MailSender();
+            mailSender.ServerAddress = ServerBox.Text;
+            Int32.TryParse(PortBox.Text, out int _port);
+            mailSender.ServerPort = _port;
+            mailSender.UserLogin = AddressBox.Text;
+            mailSender.UserPassword = PasswordBox.Password;
+            mailSender.UseSSL = SslBox.IsEnabled;
+            try
+            {
+                mailSender.SendMessage(AddressBox.Text, AddressBox.Text, "Проверка настроек", "Если вы получили это сообщение, то все ок");
+                MessageBox.Show($"Тестовое сообщение отправленно на адрес {AddressBox.Text}. Проверьте, получили ли вы его.");
+
+            } catch (Exception error)
+            {
+                MessageBox.Show(error.ToString());
+            }
+            
+        }
     }
 }

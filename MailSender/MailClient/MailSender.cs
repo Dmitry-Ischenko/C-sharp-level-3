@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
 
@@ -27,7 +28,9 @@ namespace MailClient.lib
                 from = new MailAddress(SenderAddress, SenderName);
             }
             var to = new MailAddress(RecipientAddress); 
-            using (var message = new MailMessage(from,to)) { 
+            using (var message = new MailMessage(from,to)) {
+                message.Subject = Subject;
+                message.Body = Body;
                 using (var client = new SmtpClient(ServerAddress,ServerPort))
                 {
                     client.EnableSsl = UseSSL;
@@ -36,13 +39,13 @@ namespace MailClient.lib
                     {
                         UserName = UserLogin,
                         Password = UserPassword
-                    };
-
+                    };                    
                     try
                     {
                         client.Send(message);
                     }
-                    catch (SmtpException e)
+                    //catch (SmtpException e)
+                    catch(Exception e)
                     {
                         Trace.TraceError(e.ToString());
                         throw;

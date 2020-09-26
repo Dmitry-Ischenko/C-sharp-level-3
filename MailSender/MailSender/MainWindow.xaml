@@ -87,7 +87,7 @@
                                     <CheckBox Name="SslBox" Content="SSL" Margin="2" 
                                               IsChecked="{Binding SelectedItem.UseSSl,ElementName=UserSelected, Mode=OneWay}"/>
                                 </StackPanel>
-                                <Button Content="Проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2"/>
+                                <Button Content="Проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" Click="OnTestMessage"/>
                             </Grid>
                         </DockPanel>
                     </GroupBox>
