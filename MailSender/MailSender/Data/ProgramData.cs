@@ -8,7 +8,7 @@ namespace MailSender.Data
 {
     static class ProgramData
     {
-        public static ObservableCollection<Sender> SendersCollection { get; set; }
+        public static ObservableCollection<Sender> SendersCollection { get; set; } = new ObservableCollection<Sender>();
 
         public static ObservableCollection<Recipient> RecipientsCollection { get; set; }
 

@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MailSender"
+        xmlns:data="clr-namespace:MailSender.Data"
+        xmlns:m="clr-namespace:MailSender.Models"
         mc:Ignorable="d"
         Title="Спамщик" Height="450" Width="800">
     <DockPanel>
@@ -30,13 +32,50 @@
                             </DockPanel.Resources>
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                                 <TextBlock Text="Учетная запись отправителя: " Margin="2"/>
-                                <ComboBox SelectedIndex="0" Margin="2" MinWidth="50">
-                                    <ComboBoxItem Content="dmitry@test.ru"/>
+                                <ComboBox Name="UserSelected" SelectedIndex="0" Margin="2" MinWidth="50" 
+                                          ItemsSource="{x:Static data:ProgramData.SendersCollection}" 
+                                          DisplayMemberPath="Name">
                                 </ComboBox>
                                 <Button Content="Удалить" Margin="2"/>
                                 <Button Content="Сохранить" Margin="2"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Имя: " Grid.Row="0" Grid.Column="0"/>
+                                <TextBlock Text="Логин: " Grid.Row="1" Grid.Column="0"/>
+                                <TextBlock Text="Пароль: " Grid.Row="1" Grid.Column="2"/>
+                                <TextBlock Text="Адрес сервера: " Grid.Row="2" Grid.Column="0"/>
+                                <TextBlock Text="Порт: " Grid.Row="2" Grid.Column="2"/>
+
+                                <TextBox Width="120" Grid.Row="0" Grid.Column="1"
+                                         Text="{Binding SelectedItem.Name,ElementName=UserSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Width="120" Grid.Row="1" Grid.Column="1"
+                                         Text="{Binding SelectedItem.Address,ElementName=UserSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Width="120" Grid.Row="2" Grid.Column="1"
+                                         Text="{Binding SelectedItem.Server,ElementName=UserSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                
+                                <PasswordBox Width="150" Grid.Row="1" Grid.Column="3" Margin="2"/>
+                                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="3">
+                                    <TextBox Width="50" 
+                                              Text="{Binding SelectedItem.Port,ElementName=UserSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <CheckBox Content="SSL" Margin="2" 
+                                              IsChecked="{Binding SelectedItem.UseSSl,ElementName=UserSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <Button Content="Проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2"/>
+                            </Grid>
+                            <!--<StackPanel Orientation="Horizontal">
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Адрес сервера: " Margin="2"/>
                                     <TextBlock Text="Логин: "/>
@@ -57,7 +96,7 @@
                                     <PasswordBox Width="150" Margin="2"/>
                                 </StackPanel>
                                 <Button Content="Проверить" Margin="2"/>
-                            </StackPanel>
+                            </StackPanel>-->
                         </DockPanel>
                     </GroupBox>
                     <GroupBox Header="Получатели">
