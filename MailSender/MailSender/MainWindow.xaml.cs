@@ -18,6 +18,19 @@ namespace MailSender
         public MainWindow()
         {
             InitializeComponent();
-        }        
+        }
+
+        private void OnDeleteSelectedSender(object sender, RoutedEventArgs e)
+        {
+            if (UserSelected.SelectedItem is Sender _sender)
+            {
+                ProgramData.SendersCollection.Remove(_sender);
+            }
+        }
+
+        private void OnAddSenderInCollection(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -50,8 +50,8 @@
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
-                                <Button Content="Удалить" Margin="2"/>
-                                <Button Content="Сохранить" Margin="2"/>
+                                <Button Content="Удалить" Margin="2" Click="OnDeleteSelectedSender" />
+                                <Button Content="Сохранить" Margin="2" Click="OnAddSenderInCollection"/>
                             </StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -73,44 +73,22 @@
                                 <TextBlock Text="Адрес сервера: " Grid.Row="2" Grid.Column="0"/>
                                 <TextBlock Text="Порт: " Grid.Row="2" Grid.Column="2"/>
 
-                                <TextBox Width="120" Grid.Row="0" Grid.Column="1"
+                                <TextBox Name="NameBox" Width="120" Grid.Row="0" Grid.Column="1"
                                          Text="{Binding SelectedItem.Name,ElementName=UserSelected, Mode=OneWay}"/>
-                                <TextBox Width="120" Grid.Row="1" Grid.Column="1"
+                                <TextBox Name="AddressBox" Width="120" Grid.Row="1" Grid.Column="1"
                                          Text="{Binding SelectedItem.Address,ElementName=UserSelected, Mode=OneWay}"/>
-                                <TextBox Width="120" Grid.Row="2" Grid.Column="1"
+                                <TextBox Name="ServerBox" Width="120" Grid.Row="2" Grid.Column="1"
                                          Text="{Binding SelectedItem.Server,ElementName=UserSelected, Mode=OneWay}"/>
-                                
-                                <PasswordBox Width="150" Grid.Row="1" Grid.Column="3" Margin="2"/>
+
+                                <PasswordBox Name="PasswordBox" Width="150" Grid.Row="1" Grid.Column="3" Margin="2"/>
                                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="3">
-                                    <TextBox Width="50" 
+                                    <TextBox Name="PortBox" Width="50" 
                                               Text="{Binding SelectedItem.Port,ElementName=UserSelected, Mode=OneWay}"/>
-                                    <CheckBox Content="SSL" Margin="2" 
+                                    <CheckBox Name="SslBox" Content="SSL" Margin="2" 
                                               IsChecked="{Binding SelectedItem.UseSSl,ElementName=UserSelected, Mode=OneWay}"/>
                                 </StackPanel>
                                 <Button Content="Проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2"/>
                             </Grid>
-                            <!--<StackPanel Orientation="Horizontal">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Адрес сервера: " Margin="2"/>
-                                    <TextBlock Text="Логин: "/>
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical">
-                                    <TextBox Width="120"/>
-                                    <TextBox Width="120"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Порт: "/>
-                                    <TextBlock Text="Пароль: "/>
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBox Width="50"/>
-                                        <CheckBox Content="SSL" Margin="2"/>
-                                    </StackPanel>
-                                    <PasswordBox Width="150" Margin="2"/>
-                                </StackPanel>
-                                <Button Content="Проверить" Margin="2"/>
-                            </StackPanel>-->
                         </DockPanel>
                     </GroupBox>
                     <GroupBox Header="Получатели">
