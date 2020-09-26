@@ -30,9 +30,46 @@ namespace MailSender.Data
             }
         };
 
-        public static ObservableCollection<Recipient> RecipientsCollection { get; set; }
+        public static ObservableCollection<Recipient> RecipientsCollection { get; set; } = new ObservableCollection<Recipient>()
+        {
+            new Recipient
+            {
+                 Active = true,
+                  Address = "dmitry@yandex.ru",
+                   Name = "Дмитрий Ищенко"
+            },
+            new Recipient
+            {
+                 Active = true,
+                  Address = "v.zahudalov@yandex.ru",
+                   Name = "Валера Захудалов"
+            },
+            new Recipient
+            {
+                 Active = true,
+                  Address = "p.vasilev@yandex.ru",
+                   Name = "Петя Васильев"
+            }
+        };
 
-        public static ObservableCollection<Message> MessagesCollection { get; set; }
+        public static ObservableCollection<Message> MessagesCollection { get; set; } = new ObservableCollection<Message>()
+        {
+            new Message
+            {
+                 Body = "Важное сообщение! в Челябинске осень!",
+                  Subject = "Это важное сообщение"
+            },
+            new Message
+            {
+                 Body = "Тыр тыр тыр тыр",
+                  Subject = "Это важное сообщение 2"
+            },
+            new Message
+            {
+                 Body = "Курлык мурлык",
+                  Subject = "Это важное сообщение 3"
+            }
+        };
 
     }
 }
