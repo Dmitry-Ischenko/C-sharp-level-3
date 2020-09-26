@@ -20,29 +20,43 @@
                 <DockPanel>
                     <GroupBox Header="Отправители" DockPanel.Dock="Top">
                         <DockPanel>
+                            <DockPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Margin" Value="2"/>
+                                </Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Margin" Value="2"/>
+                                </Style>
+                            </DockPanel.Resources>
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                <TextBlock Text="Учетная запись отправителя"/>
-                                <ComboBox SelectedIndex="0">
+                                <TextBlock Text="Учетная запись отправителя: " Margin="2"/>
+                                <ComboBox SelectedIndex="0" Margin="2" MinWidth="50">
                                     <ComboBoxItem Content="dmitry@test.ru"/>
                                 </ComboBox>
-                                <Button Content="Удалить"/>
-                                <Button Content="Сохранить"/>
+                                <Button Content="Удалить" Margin="2"/>
+                                <Button Content="Сохранить" Margin="2"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Адрес сервера: " Margin="2"/>
                                     <TextBlock Text="Логин: "/>
-                                    <TextBox Width="120"/>
-                                    <TextBlock Text="Пароль"/>
-                                    <PasswordBox Width="120"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Адрес сервера: "/>
+                                <StackPanel Orientation="Vertical">
                                     <TextBox Width="120"/>
-                                    <TextBlock Text="Порт"/>
-                                    <TextBox Width="50"/>
-                                    <CheckBox Content="SSL"/>
-                                    <Button Content="проверить настройки"/>
+                                    <TextBox Width="120"/>
                                 </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Порт: "/>
+                                    <TextBlock Text="Пароль: "/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Width="50"/>
+                                        <CheckBox Content="SSL" Margin="2"/>
+                                    </StackPanel>
+                                    <PasswordBox Width="150" Margin="2"/>
+                                </StackPanel>
+                                <Button Content="Проверить" Margin="2"/>
                             </StackPanel>
                         </DockPanel>
                     </GroupBox>
