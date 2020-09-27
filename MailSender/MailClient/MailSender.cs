@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MailClient.lib
 {
@@ -16,6 +18,9 @@ namespace MailClient.lib
         public string UserLogin { get; set; }
 
         public string UserPassword { get; set; }
+
+        //Для имитации отправки
+        public bool SendMsg { get; set; } = true;
 
         public void SendMessage(string SenderAddress, string RecipientAddress, string Subject, string Body, string SenderName = null)
         {
@@ -41,12 +46,17 @@ namespace MailClient.lib
                         Password = UserPassword
                     };
                     try
-                    {
-                        //client.Send(message);
-                        string userState = "test message1";
-                        //client.SendAsync(message, userState);
+                    { 
+                        if (SendMsg)
+                        {
+                            client.Send(message);
+                        } else
+                        {
+                            //Имитация отправки
+                            Thread.Sleep(2000);
+                        }                      
+                        
                     }
-                    //catch (SmtpException e)
                     catch (Exception e)
                     {
                         Trace.TraceError(e.ToString());

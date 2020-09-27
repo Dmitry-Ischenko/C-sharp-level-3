@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Windows;
-using System.Net;
-using System.Net.Mail;
-using System.Drawing;
-using System.Xml.Schema;
-using System.Windows.Media;
 using MailSender.Data;
 using MailSender.Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace MailSender
 {
@@ -115,6 +111,24 @@ namespace MailSender
                     MessageBox.Show(error.ToString());
                 }
             }
+        }
+
+        private void onSendNow(object sender, RoutedEventArgs e)
+        {
+
+            List<Recipient> list = new List<Recipient>();
+            foreach(var t in ProgramData.RecipientsCollection)
+            {
+                if (t.Active)
+                {
+                    list.Add(t);
+                }                
+            }
+            SendWindow sendWindow = new SendWindow();
+            sendWindow.RecipientList = list;
+            sendWindow.SenderUr = TaskSenderSelected.SelectedItem as Sender;
+            sendWindow.MessageUr = TaskMessageSelected.SelectedItem as Message;
+            sendWindow.ShowDialog();
         }
     }
 }

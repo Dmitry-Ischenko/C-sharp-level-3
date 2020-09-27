@@ -1,0 +1,40 @@
+﻿<Window x:Class="MailSender.SendWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MailSender"
+        mc:Ignorable="d"
+        Title="SendWindow" Height="450" Width="800" Loaded="LoadedWindow">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <GroupBox Header="От кого" DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Имя"/>
+                        <TextBlock Name="Name"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Адрес"/>
+                        <TextBlock Name="Address"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Сообщение">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                        <TextBlock Text="Заголовок"/>
+                        <TextBox Name="Subject" IsReadOnly="True"/>
+                    </StackPanel>
+                    <DockPanel>
+                        <TextBlock Text="Сообщение" DockPanel.Dock="Top"/>
+                        <TextBox Name="Body" IsReadOnly="True"/>
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+        </DockPanel>
+        <Button Content="закрыть" DockPanel.Dock="Bottom" />
+        <ListBox Name="ViewListBox"/>
+        
+    </DockPanel>
+</Window>

@@ -2,7 +2,7 @@
 
 namespace MailSender.Models
 {
-    class Message: ModelBase
+    public class Message: ModelBase
     {
         private string _Subject;
         private string _Body;

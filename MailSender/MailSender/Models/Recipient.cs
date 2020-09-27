@@ -2,7 +2,7 @@
 
 namespace MailSender.Models
 {
-    class Recipient: ModelBase
+    public class Recipient: ModelBase
     {
         public string Name { get; set; }
 
