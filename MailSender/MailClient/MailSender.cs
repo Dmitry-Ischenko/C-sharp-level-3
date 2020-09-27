@@ -34,18 +34,20 @@ namespace MailClient.lib
                 using (var client = new SmtpClient(ServerAddress,ServerPort))
                 {
                     client.EnableSsl = UseSSL;
-
+                    client.UseDefaultCredentials = false;
                     client.Credentials = new NetworkCredential
                     {
                         UserName = UserLogin,
                         Password = UserPassword
-                    };                    
+                    };
                     try
                     {
-                        client.Send(message);
+                        //client.Send(message);
+                        string userState = "test message1";
+                        //client.SendAsync(message, userState);
                     }
                     //catch (SmtpException e)
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Trace.TraceError(e.ToString());
                         throw;
@@ -53,6 +55,5 @@ namespace MailClient.lib
                 }
             }
         }
-
     }
 }

@@ -46,10 +46,14 @@ namespace MailSender
                 var item = ProgramData.SendersCollection.Last(i => i.Address == AddressBox.Text);
                 item.Name = NameBox.Text;
                 item.Address = AddressBox.Text;
-                item.Password = PasswordBox.Password;
+                if (PasswordBox.Password != null && PasswordBox.Password.Length >0)
+                {
+                    item.Password = PasswordBox.Password;
+                }
                 item.Port = _port;
                 item.Server = ServerBox.Text;
                 item.UseSSl = SslBox.IsEnabled;
+                UserSelected.SelectedIndex = ProgramData.SendersCollection.IndexOf(item);
             }
             catch
             {
@@ -65,6 +69,7 @@ namespace MailSender
                 ProgramData.SendersCollection.Add(_sender);
                 UserSelected.SelectedIndex = ProgramData.SendersCollection.Count - 1;
             }
+            PasswordBox.Password = "";
         }
 
         private void OnDeleteSelectedMessage(object sender, RoutedEventArgs e)
@@ -91,22 +96,25 @@ namespace MailSender
         private void OnTestMessage(object sender, RoutedEventArgs e)
         {
             MailClient.lib.MailSender mailSender = new MailClient.lib.MailSender();
-            mailSender.ServerAddress = ServerBox.Text;
-            Int32.TryParse(PortBox.Text, out int _port);
-            mailSender.ServerPort = _port;
-            mailSender.UserLogin = AddressBox.Text;
-            mailSender.UserPassword = PasswordBox.Password;
-            mailSender.UseSSL = SslBox.IsEnabled;
-            try
+            OnAddSenderInCollection(sender, e);
+            if (UserSelected.SelectedItem is Sender _sender)
             {
-                mailSender.SendMessage(AddressBox.Text, AddressBox.Text, "Проверка настроек", "Если вы получили это сообщение, то все ок");
-                MessageBox.Show($"Тестовое сообщение отправленно на адрес {AddressBox.Text}. Проверьте, получили ли вы его.");
+                mailSender.ServerAddress = _sender.Server;
+                mailSender.ServerPort = _sender.Port;
+                mailSender.UserLogin = _sender.Address;
+                mailSender.UserPassword = _sender.Password;
+                mailSender.UseSSL = _sender.UseSSl;
+                try
+                {
+                    mailSender.SendMessage(_sender.Address, _sender.Address, "Проверка настроек", "Если вы получили это сообщение, то все ок");
+                    MessageBox.Show($"Тестовое сообщение отправленно на адрес {_sender.Address}. Проверьте, получили ли вы его.");
 
-            } catch (Exception error)
-            {
-                MessageBox.Show(error.ToString());
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show(error.ToString());
+                }
             }
-            
         }
     }
 }

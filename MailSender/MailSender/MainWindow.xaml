@@ -83,11 +83,11 @@
                                 <PasswordBox Name="PasswordBox" Width="150" Grid.Row="1" Grid.Column="3" Margin="2"/>
                                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="3">
                                     <TextBox Name="PortBox" Width="50" 
-                                              Text="{Binding SelectedItem.Port,ElementName=UserSelected, Mode=OneWay}"/>
+                                              Text="{Binding SelectedItem.Port,ElementName=UserSelected, Mode=OneWay}" Margin="2"/>
                                     <CheckBox Name="SslBox" Content="SSL" Margin="2" 
                                               IsChecked="{Binding SelectedItem.UseSSl,ElementName=UserSelected, Mode=OneWay}"/>
                                 </StackPanel>
-                                <Button Content="Проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" Click="OnTestMessage"/>
+                                <Button Content="Сохранить и проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" Click="OnTestMessage"/>
                             </Grid>
                         </DockPanel>
                     </GroupBox>
