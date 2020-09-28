@@ -4,37 +4,55 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MailSender"
-        mc:Ignorable="d"
+        xmlns:m="clr-namespace:MailSender.Models"
+        mc:Ignorable="d"        
         Title="SendWindow" Height="450" Width="800" Loaded="LoadedWindow">
-    <DockPanel>
-        <DockPanel DockPanel.Dock="Top">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
             <GroupBox Header="От кого" DockPanel.Dock="Top">
                 <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Имя"/>
-                        <TextBlock Name="Name"/>
+                    <StackPanel Orientation="Vertical" Margin="2">
+                        <TextBlock Text="Имя:"/>
+                        <TextBox Name="Name" Width="100" IsReadOnly="True"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Адрес"/>
-                        <TextBlock Name="Address"/>
+                    <StackPanel Orientation="Vertical" Margin="2">
+                        <TextBlock Text="Адрес:"/>
+                        <TextBox Name="Address" Width="100" IsReadOnly="True"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="2">
+                        <TextBlock Text="Количество получателей:"/>
+                        <TextBox Name="RecipientCount" IsReadOnly="True"/>
                     </StackPanel>
                 </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Заголовок" DockPanel.Dock="Top">
+                <TextBox Name="Subject" IsReadOnly="True" Margin="2"/>
             </GroupBox>
             <GroupBox Header="Сообщение">
-                <StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
-                        <TextBlock Text="Заголовок"/>
-                        <TextBox Name="Subject" IsReadOnly="True"/>
-                    </StackPanel>
-                    <DockPanel>
-                        <TextBlock Text="Сообщение" DockPanel.Dock="Top"/>
-                        <TextBox Name="Body" IsReadOnly="True"/>
-                    </DockPanel>
-                </StackPanel>
+                <TextBox Name="Body" IsReadOnly="True" Margin="2" 
+                         AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
             </GroupBox>
         </DockPanel>
-        <Button Content="закрыть" DockPanel.Dock="Bottom" />
-        <ListBox Name="ViewListBox"/>
-        
-    </DockPanel>
+        <ListBox Name="ViewListBox" Grid.Row="1" Margin="2">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="m:Recipient">
+                    <GroupBox Header="{Binding Name}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Address}"/>
+                            <TextBlock Text=" - Отправленно" Foreground="Green"/>
+                        </StackPanel>
+                    </GroupBox>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
 </Window>

@@ -29,7 +29,8 @@ namespace MailSender
             Address.Text = SenderUr.Address;
             Subject.Text = MessageUr.Subject;
             Body.Text = MessageUr.Body;
-            foreach(var t in RecipientList)
+            RecipientCount.Text = $"{RecipientList.Count}";
+            foreach (var t in RecipientList)
             {
                 MailClient.lib.MailSender mailSender = new MailClient.lib.MailSender();
                 mailSender.ServerAddress = SenderUr.Server;
