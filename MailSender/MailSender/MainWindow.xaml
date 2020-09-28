@@ -143,7 +143,7 @@
                                       ItemsSource="{Binding Source={x:Static data:ProgramData.MessagesCollection}}" 
                                       DisplayMemberPath="Subject"/>
                             <Button Content="Отправить сейчас" Margin="0,2,0,0" Click="onSendNow"/>
-                            <Button Content="Добавить задание" Margin="0,2,0,0"/>
+                            <Button Content="Добавить задание" Margin="0,2,0,0" IsEnabled="False"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Задания">
@@ -251,11 +251,11 @@
                     </StackPanel.Resources>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество учетных записей: " Style="{StaticResource TextBlockStyle}"/>
-                        <TextBlock Text="0"/>
+                        <TextBlock Text="{Binding Source={x:Static data:ProgramData.SendersCollection}, Path=Count}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество получателей: " Style="{StaticResource TextBlockStyle}"/>
-                        <TextBlock Text="0"/>
+                        <TextBlock Text="{Binding Source={x:Static data:ProgramData.RecipientsCollection}, Path=Count}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество запланированых заданий: " Style="{StaticResource TextBlockStyle}"/>
@@ -263,7 +263,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество шаблонов писем: " Style="{StaticResource TextBlockStyle}"/>
-                        <TextBlock Text="0"/>
+                        <TextBlock Text="{Binding Source={x:Static data:ProgramData.MessagesCollection}, Path=Count}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество выполненых заданий: " Style="{StaticResource TextBlockStyle}"/>
