@@ -1,0 +1,67 @@
+﻿<Window x:Class="MailSender.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MailSender"
+        mc:Ignorable="d"
+        Title="ТандерБёрд на минималках" Height="450" Width="800">
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" Header="Настройка">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock Text="Логин:" Width="50"/>
+                        <TextBox x:Name="Login" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock Text="Пароль:" Width="50"/>
+                        <PasswordBox x:Name="Password" Width="200"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock Text="SMTP Server:" Width="80"/>
+                        <TextBox x:Name="Server" Width="200"/>
+                        <TextBlock Text="Port:" Width="30"/>
+                        <TextBox x:Name="port" Width="30"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock Text="Шифрование" Width="80"/>
+                        <ComboBox Name="SecureType" SelectedIndex="0">
+                            <ComboBoxItem>SSL</ComboBoxItem>
+                            <ComboBoxItem>NO</ComboBoxItem>
+                        </ComboBox>
+                        <TextBlock Text="Аутентификация" Margin="2,0"/>
+                        <ComboBox Name="AuthMetod" SelectedIndex="0">
+                            <ComboBoxItem>Зашифрованный пароль</ComboBoxItem>
+                            <ComboBoxItem>Обычный пароль (Не зашифрованный)</ComboBoxItem>
+                        </ComboBox>
+
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <StatusBar DockPanel.Dock="Bottom">
+            <TextBlock x:Name="StatusBarMessage" Text="Ready"/>
+        </StatusBar>
+        <GroupBox Header="Сообщение">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="2">
+                    <TextBlock Text="Кому:"/>
+                    <TextBox x:Name="SendTo" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+                    <Button Content="Отправить" Margin="2" Click="Button_Click"/>
+                    <Button Content="Очистить" Margin="2" Click="Button_Click_1"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="2">
+                    <TextBlock Text="Заголовок письма: "/>
+                    <TextBox x:Name="Subject" Width="500"/>
+                </StackPanel>
+                <TextBox x:Name="Message" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+            </DockPanel>    
+        </GroupBox>
+    </DockPanel>
+</Window>
