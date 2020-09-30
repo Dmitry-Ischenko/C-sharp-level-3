@@ -5,7 +5,7 @@ using MailSender.Models;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace MailSender
+namespace MailSender.Views.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

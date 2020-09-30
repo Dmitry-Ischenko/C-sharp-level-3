@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 
 
-namespace MailSender
+namespace MailSender.Views.Windows
 {
     /// <summary>
     /// Логика взаимодействия для SendWindow.xaml
