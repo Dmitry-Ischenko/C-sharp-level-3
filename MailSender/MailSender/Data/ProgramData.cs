@@ -1,7 +1,7 @@
 ﻿using MailSender.Models;
 using MailSender.ViewModels.Base;
-using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -20,33 +20,45 @@ namespace MailSender.Data
         private string _RecipientsCollectionPath;
         private string _MessagesCollectionPath;
 
-        public ObservableCollection<Sender> SendersCollection { 
-            get=> _SendersCollection; 
-            set=>Set(ref _SendersCollection,value); 
+        private Dictionary<Type, XmlSerializer> _SerializerDictionary = new Dictionary<Type, XmlSerializer>();
+
+
+        public ObservableCollection<Sender> SendersCollection
+        {
+            get => _SendersCollection;
+            set => Set(ref _SendersCollection, value);
         }
-        public ObservableCollection<Recipient> RecipientsCollection {
+        public ObservableCollection<Recipient> RecipientsCollection
+        {
             get => _RecipientsCollection;
             set => Set(ref _RecipientsCollection, value);
         }
-        public ObservableCollection<Message> MessagesCollection {
+        public ObservableCollection<Message> MessagesCollection
+        {
             get => _MessagesCollection;
             set => Set(ref _MessagesCollection, value);
-        }
+        } 
 
-        
 
         public ProgramData ()
         {
-            string _ProgramPath =  Environment.CurrentDirectory;
+            string _ProgramPath = Environment.CurrentDirectory;
             _SendersCollectionPath = $"{_ProgramPath}\\SendersCollection.xml";
             _RecipientsCollectionPath = $"{_ProgramPath}\\RecipientsCollection.xml";
             _MessagesCollectionPath = $"{_ProgramPath}\\MessagesCollection.xml";
+            //System.Xml.Serialization.XmlSerializer formatter = new System.Xml.Serialization.XmlSerializer(typeof(List<Sender>));
+            _SerializerDictionary.Add(typeof(ObservableCollection<Sender>), new XmlSerializer(typeof(ObservableCollection<Sender>)));
+            _SerializerDictionary.Add(typeof(ObservableCollection<Recipient>), new XmlSerializer(typeof(ObservableCollection<Recipient>)));
+            _SerializerDictionary.Add(typeof(ObservableCollection<Message>), new XmlSerializer(typeof(ObservableCollection<Message>)));
+            //_SerializerDictionary.Add(typeof(Sender), new XmlSerializer(typeof(Sender)));
+            //_SerializerDictionary.Add(typeof(Recipient), new XmlSerializer(typeof(Recipient)));
+            //_SerializerDictionary.Add(typeof(Message), new XmlSerializer(typeof(Message)));
             LoadData();
-            this.PropertyChanged += SaveToFile;
-            
+            this.PropertyChanged += SaveData;
+
         }
 
-        private void SaveToFile(object sender, PropertyChangedEventArgs e)
+        private void SaveData(object sender, PropertyChangedEventArgs e)
         {
             
             switch (e.PropertyName) {
@@ -71,7 +83,8 @@ namespace MailSender.Data
 
         private void SaveInFile<T>(string path,T ObjectSerializer)
         {
-            XmlSerializer formatter = new XmlSerializer(typeof(T));
+
+            XmlSerializer formatter = _SerializerDictionary[typeof(T)];
             try
             {
                 using (FileStream fs = new FileStream(path, FileMode.Create))
@@ -82,29 +95,58 @@ namespace MailSender.Data
             }
             catch(Exception e) { Debug.WriteLine(e.ToString()); }
         }
-        private void LoadFromFile<T>(string path, T ObjectSerializer)
-        {
-            XmlSerializer formatter = new XmlSerializer(typeof(T));
-            try
-            {
-                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-                {
+        //private void LoadFromFile<T>(string path, ObservableCollection<T> ObjectSerializer,Type type)
+        //{
+        //    XmlSerializer formatter = _SerializerDictionary[type];
+        //    try
+        //    {
+        //        using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+        //        {
                     
-                    ObjectSerializer = (T)formatter.Deserialize(fs);
-                    fs.Close();
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
-        }
+        //            switch($"{type.GetType()}")
+        //            {
+        //                case "Sender":
+        //                    {                               
+        //                        foreach (var item in (Sender[])formatter.Deserialize(fs))
+        //                        {
+        //                            ObjectSerializer.Add(item);
+        //                        }
+        //                        break;
+        //                    }
+        //            }
+
+        //            fs.Close();
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.WriteLine(e.ToString());
+        //    }
+        //}
 
         private void LoadData()
         {
             if (File.Exists(_SendersCollectionPath))
             {
-                LoadFromFile(_SendersCollectionPath, SendersCollection);
+                SendersCollection = new ObservableCollection<Sender>();
+                XmlSerializer formatter = new XmlSerializer(typeof(Sender[]));
+                try
+                {
+                    using (FileStream fs = new FileStream(_SendersCollectionPath, FileMode.OpenOrCreate))
+                    {
+
+                        foreach (var item in (Sender[])formatter.Deserialize(fs))
+                        {
+                            SendersCollection.Add(item);
+                        }
+                        fs.Close();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                }
+                //LoadFromFile(_SendersCollectionPath, SendersCollection,typeof(Sender));
             } 
             else
             {
@@ -136,7 +178,24 @@ namespace MailSender.Data
             }
             if (File.Exists(_RecipientsCollectionPath))
             {
-                LoadFromFile(_RecipientsCollectionPath, RecipientsCollection);
+                RecipientsCollection = new ObservableCollection<Recipient>();
+                XmlSerializer formatter = new XmlSerializer(typeof(Recipient[]));
+                try
+                {
+                    using (FileStream fs = new FileStream(_RecipientsCollectionPath, FileMode.OpenOrCreate))
+                    {
+
+                        foreach (var item in (Recipient[])formatter.Deserialize(fs))
+                        {
+                            RecipientsCollection.Add(item);
+                        }
+                        fs.Close();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                }
             }
             else
             {
@@ -168,7 +227,24 @@ namespace MailSender.Data
             }
             if (File.Exists(_MessagesCollectionPath))
             {
-                LoadFromFile(_MessagesCollectionPath, MessagesCollection);
+                MessagesCollection = new ObservableCollection<Message>();
+                XmlSerializer formatter = new XmlSerializer(typeof(Message[]));
+                try
+                {
+                    using (FileStream fs = new FileStream(_MessagesCollectionPath, FileMode.OpenOrCreate))
+                    {
+
+                        foreach (var item in (Message[])formatter.Deserialize(fs))
+                        {
+                            MessagesCollection.Add(item);
+                        }
+                        fs.Close();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                }
             }
             else
             {
