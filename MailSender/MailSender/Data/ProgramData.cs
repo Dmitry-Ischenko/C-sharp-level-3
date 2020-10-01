@@ -52,46 +52,45 @@ namespace MailSender.Data
             switch (e.PropertyName) {
                 case nameof(SendersCollection):
                     {
-                        SaveToFile(_SendersCollectionPath, SendersCollection);
+                        SaveInFile(_SendersCollectionPath, SendersCollection);
                         break;
                     }
                 case nameof(RecipientsCollection):
                     {
-                        SaveToFile(_RecipientsCollectionPath, RecipientsCollection);
+                        SaveInFile(_RecipientsCollectionPath, RecipientsCollection);
                         break;
                     }
                 case nameof(MessagesCollection):
                     {
-                        SaveToFile(_MessagesCollectionPath, MessagesCollection);
+                        SaveInFile(_MessagesCollectionPath, MessagesCollection);
                         break;
                     }
             }
 
         }
 
-        private void SaveToFile<T>(string path,T ObjectSerializer)
+        private void SaveInFile<T>(string path,T ObjectSerializer)
         {
-            XmlSerializer formatter = new XmlSerializer(ObjectSerializer.GetType());
+            XmlSerializer formatter = new XmlSerializer(typeof(T));
             try
             {
                 using (FileStream fs = new FileStream(path, FileMode.Create))
                 {
                     formatter.Serialize(fs, ObjectSerializer);
-                    Console.WriteLine("Объект сериализован");
                     fs.Close();
                 }
             }
             catch(Exception e) { Debug.WriteLine(e.ToString()); }
         }
-        private void LoadInFile<T>(string path, T ObjectSerializer)
+        private void LoadFromFile<T>(string path, T ObjectSerializer)
         {
-            XmlSerializer formatter = new XmlSerializer(ObjectSerializer.GetType());
+            XmlSerializer formatter = new XmlSerializer(typeof(T));
             try
             {
                 using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
                 {
                     
-                    //ObjectSerializer = (ObjectSerializer.GetType())formatter.Deserialize(fs);
+                    ObjectSerializer = (T)formatter.Deserialize(fs);
                     fs.Close();
                 }
             }
@@ -105,21 +104,7 @@ namespace MailSender.Data
         {
             if (File.Exists(_SendersCollectionPath))
             {
-                XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<Sender>));
-                try
-                {
-                    using (FileStream fs = new FileStream(_SendersCollectionPath, FileMode.OpenOrCreate))
-                    {
-
-                        SendersCollection = (ObservableCollection<Sender>)formatter.Deserialize(fs);
-                        fs.Close();
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.ToString());
-                    SendersCollection = new ObservableCollection<Sender>();
-                }
+                LoadFromFile(_SendersCollectionPath, SendersCollection);
             } 
             else
             {
@@ -151,20 +136,7 @@ namespace MailSender.Data
             }
             if (File.Exists(_RecipientsCollectionPath))
             {
-                XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<Recipient>));
-                try
-                {
-                    using (FileStream fs = new FileStream(_RecipientsCollectionPath, FileMode.OpenOrCreate))
-                    {
-                        RecipientsCollection = (ObservableCollection<Recipient>)formatter.Deserialize(fs);
-                        fs.Close();
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.ToString());
-                    RecipientsCollection = new ObservableCollection<Recipient>();
-                }
+                LoadFromFile(_RecipientsCollectionPath, RecipientsCollection);
             }
             else
             {
@@ -196,20 +168,7 @@ namespace MailSender.Data
             }
             if (File.Exists(_MessagesCollectionPath))
             {
-                XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<Message>));
-                try
-                {
-                    using (FileStream fs = new FileStream(_MessagesCollectionPath, FileMode.OpenOrCreate))
-                    {
-                        MessagesCollection = (ObservableCollection<Message>)formatter.Deserialize(fs);
-                        fs.Close();
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.ToString());
-                    MessagesCollection = new ObservableCollection<Message>();
-                }
+                LoadFromFile(_MessagesCollectionPath, MessagesCollection);
             }
             else
             {
