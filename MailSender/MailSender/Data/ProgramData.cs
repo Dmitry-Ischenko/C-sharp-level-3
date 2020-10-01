@@ -3,6 +3,7 @@ using MailSender.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -16,6 +17,7 @@ namespace MailSender.Data
         private ObservableCollection<Recipient> _RecipientsCollection;
         private ObservableCollection<Message> _MessagesCollection;
 
+        
         private string _SendersCollectionPath;
         private string _RecipientsCollectionPath;
         private string _MessagesCollectionPath;
@@ -42,6 +44,7 @@ namespace MailSender.Data
 
         public ProgramData ()
         {
+            
             string _ProgramPath = Environment.CurrentDirectory;
             _SendersCollectionPath = $"{_ProgramPath}\\SendersCollection.xml";
             _RecipientsCollectionPath = $"{_ProgramPath}\\RecipientsCollection.xml";
@@ -54,13 +57,37 @@ namespace MailSender.Data
             //_SerializerDictionary.Add(typeof(Recipient), new XmlSerializer(typeof(Recipient)));
             //_SerializerDictionary.Add(typeof(Message), new XmlSerializer(typeof(Message)));
             LoadData();
-            this.PropertyChanged += SaveData;
+            SendersCollection.CollectionChanged += SaveData2;
 
+        }
+
+        private void SaveData2(object sender, NotifyCollectionChangedEventArgs e)
+        {
+
+            var name = nameof(sender);
+            switch (name)
+            {
+                case nameof(SendersCollection):
+                    {
+                        SaveInFile(_SendersCollectionPath, SendersCollection);
+                        break;
+                    }
+                case nameof(RecipientsCollection):
+                    {
+                        SaveInFile(_RecipientsCollectionPath, RecipientsCollection);
+                        break;
+                    }
+                case nameof(MessagesCollection):
+                    {
+                        SaveInFile(_MessagesCollectionPath, MessagesCollection);
+                        break;
+                    }
+            }
         }
 
         private void SaveData(object sender, PropertyChangedEventArgs e)
         {
-            
+            Debug.WriteLine("WTF?");
             switch (e.PropertyName) {
                 case nameof(SendersCollection):
                     {
