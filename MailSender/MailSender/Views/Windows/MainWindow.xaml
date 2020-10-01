@@ -8,6 +8,9 @@
         xmlns:m="clr-namespace:MailSender.Models"
         mc:Ignorable="d"
         Title="Спамщик" Height="450" Width="800">
+    <Window.DataContext>
+        <Binding Path="MainWindowModel" Source="{StaticResource Locator}"/>
+    </Window.DataContext>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл"/>
@@ -33,7 +36,7 @@
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                                 <TextBlock Text="Учетная запись отправителя: " Margin="2"/>
                                 <ComboBox Name="UserSelected" SelectedIndex="0" Margin="2" MinWidth="50" 
-                                          ItemsSource="{Binding Source={x:Static data:ProgramData.SendersCollection}}">
+                                           ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.SendersCollection}" >
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate DataType="m:Sender">
                                             <StackPanel Orientation="Horizontal">
@@ -100,10 +103,10 @@
                                 <Button Content="Очистить" IsEnabled="False"/>
                             </StackPanel>
                             <DataGrid AutoGenerateColumns="False" 
-                                      ItemsSource="{Binding Source={x:Static data:ProgramData.RecipientsCollection}}"
                                       GridLinesVisibility="Vertical"
                                       AlternatingRowBackground="LightBlue"
-                                      VerticalGridLinesBrush="Gray">
+                                      VerticalGridLinesBrush="Gray"
+                                      ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.RecipientsCollection}" >
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn Header="Вкл" Binding="{Binding Active}"/>
                                     <DataGridTextColumn Header="Имя получателя" Binding="{Binding Name}" Width="1*"/>
@@ -121,7 +124,7 @@
                             <Calendar x:Name="Calendar"/>
                             <TextBlock Text="Адрес отправителя"/>
                             <ComboBox Name="TaskSenderSelected" SelectedIndex="0" 
-                                      ItemsSource="{Binding Source={x:Static data:ProgramData.SendersCollection}}">
+                                      ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.SendersCollection}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="m:Sender">
                                         <StackPanel Orientation="Horizontal">
@@ -140,8 +143,9 @@
                             </ComboBox>
                             <TextBlock Text="Сообщение"/>
                             <ComboBox Name="TaskMessageSelected" SelectedIndex="0" 
-                                      ItemsSource="{Binding Source={x:Static data:ProgramData.MessagesCollection}}" 
-                                      DisplayMemberPath="Subject"/>
+                                      DisplayMemberPath="Subject"
+                                      ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.MessagesCollection}"/>
+
                             <Button Content="Отправить сейчас" Margin="0,2,0,0" Click="onSendNow"/>
                             <Button Content="Добавить задание" Margin="0,2,0,0" IsEnabled="False"/>
                         </StackPanel>
@@ -217,8 +221,8 @@
                 <DockPanel>
                     <GroupBox Header="Список писем" DockPanel.Dock="Left" MaxWidth="200">
                         <ListBox Name="MessagesList" 
-                                 ItemsSource="{Binding Source={x:Static data:ProgramData.MessagesCollection}}"
-                                 DisplayMemberPath="Subject">
+                                 DisplayMemberPath="Subject"
+                                 ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.MessagesCollection}">
                         </ListBox>
                     </GroupBox>
                     <GroupBox Header="Редактор">
@@ -251,11 +255,11 @@
                     </StackPanel.Resources>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество учетных записей: " Style="{StaticResource TextBlockStyle}"/>
-                        <TextBlock Text="{Binding Source={x:Static data:ProgramData.SendersCollection}, Path=Count}"/>
+                        <TextBlock Text="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.SendersCollection.Count}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество получателей: " Style="{StaticResource TextBlockStyle}"/>
-                        <TextBlock Text="{Binding Source={x:Static data:ProgramData.RecipientsCollection}, Path=Count}"/>
+                        <TextBlock Text="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.RecipientsCollection.Count}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество запланированых заданий: " Style="{StaticResource TextBlockStyle}"/>
@@ -263,7 +267,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество шаблонов писем: " Style="{StaticResource TextBlockStyle}"/>
-                        <TextBlock Text="{Binding Source={x:Static data:ProgramData.MessagesCollection}, Path=Count}"/>
+                        <TextBlock Text="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.MessagesCollection.Count}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество выполненых заданий: " Style="{StaticResource TextBlockStyle}"/>
