@@ -35,8 +35,8 @@
                             </DockPanel.Resources>
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                                 <TextBlock Text="Учетная запись отправителя: " Margin="2"/>
-                                <ComboBox Name="UserSelected" SelectedIndex="0" Margin="2" MinWidth="50" 
-                                           ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.SendersCollection}" >
+                                <ComboBox Name="UserSelected" Margin="2" MinWidth="50" 
+                                           ItemsSource="{Binding SenderCollection}" SelectedValue="{Binding SelectSenderSettings}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate DataType="m:Sender">
                                             <StackPanel Orientation="Horizontal">
@@ -53,7 +53,7 @@
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
-                                <Button Content="Удалить" Margin="2" Click="OnDeleteSelectedSender" />
+                                <Button Content="Удалить" Margin="2" Command="{Binding DeleteSenderCommand}" />
                                 <Button Content="Сохранить" Margin="2" Click="OnAddSenderInCollection"/>
                             </StackPanel>
                             <Grid>
@@ -106,7 +106,7 @@
                                       GridLinesVisibility="Vertical"
                                       AlternatingRowBackground="LightBlue"
                                       VerticalGridLinesBrush="Gray"
-                                      ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.RecipientsCollection}" >
+                                      ItemsSource="{Binding RecipientCollection}" >
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn Header="Вкл" Binding="{Binding Active}"/>
                                     <DataGridTextColumn Header="Имя получателя" Binding="{Binding Name}" Width="1*"/>
@@ -222,7 +222,7 @@
                     <GroupBox Header="Список писем" DockPanel.Dock="Left" MaxWidth="200">
                         <ListBox Name="MessagesList" 
                                  DisplayMemberPath="Subject"
-                                 ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.MessagesCollection}">
+                                 ItemsSource="{Binding MessageCollection}" SelectedValue="{Binding SelectedMessageInMessadgeList}">
                         </ListBox>
                     </GroupBox>
                     <GroupBox Header="Редактор">
@@ -255,11 +255,11 @@
                     </StackPanel.Resources>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество учетных записей: " Style="{StaticResource TextBlockStyle}"/>
-                        <TextBlock Text="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.SendersCollection.Count}"/>
+                        <TextBlock Text="{Binding SenderCollection.Count}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество получателей: " Style="{StaticResource TextBlockStyle}"/>
-                        <TextBlock Text="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.RecipientsCollection.Count}"/>
+                        <TextBlock Text="{Binding RecipientCollection.Count}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество запланированых заданий: " Style="{StaticResource TextBlockStyle}"/>
@@ -267,7 +267,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество шаблонов писем: " Style="{StaticResource TextBlockStyle}"/>
-                        <TextBlock Text="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.MessagesCollection.Count}"/>
+                        <TextBlock Text="{Binding MessageCollection.Count}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество выполненых заданий: " Style="{StaticResource TextBlockStyle}"/>
