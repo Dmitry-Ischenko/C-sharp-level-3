@@ -1,4 +1,6 @@
-﻿using MailSender.Data;
+﻿using MailClient.lib.Interfaces;
+using MailClient.lib.Service;
+using MailSender.Data;
 using MailSender.Infrastructure.Converters;
 using MailSender.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +31,7 @@ namespace MailSender
         {
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<ProgramData>();
+            services.AddTransient<IMailService, SmtpMailService>();
         }
 
         public static IServiceProvider Services => Hosting.Services;
