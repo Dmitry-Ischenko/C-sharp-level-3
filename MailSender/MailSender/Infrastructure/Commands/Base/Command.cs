@@ -15,8 +15,8 @@ namespace MailSender.Infrastructure.Commands.Base
 
         void ICommand.Execute(object parameter) => Execute(parameter);
 
-        protected virtual bool CanExecute(object p) => true;
+        public virtual bool CanExecute(object p) => true;
 
-        protected abstract void Execute(object p);
+        public abstract void Execute(object p);
     }
 }

@@ -6,7 +6,7 @@ namespace MailSender.Infrastructure.Commands
 {
     class CloseWindowCommand : Command
     {
-        protected override void Execute(object p)
+        public override void Execute(object p)
         {
             var window = p as Window;
 
