@@ -73,5 +73,32 @@ namespace MailSender.ViewModels
             SenderCollection.Add(sender);
             SelectSenderSettings = sender;
         }
+
+        private ICommand _AddMessageCommand;
+
+        public ICommand AddMessageCommand => _AddMessageCommand
+            ??= new LambdaCommand(OnAddMessageCommandExecuted, CanAddMessageCommandExecute);
+
+        private bool CanAddMessageCommandExecute(object p) => true;
+
+        private void OnAddMessageCommandExecuted(object p)
+        {
+            var message = new Message();
+            MessageCollection.Add(message);
+            SelectedMessageInMessadgeList = message;
+        }
+
+        private ICommand _DeleteMessageCommand;
+
+        public ICommand DeleteMessageCommand => _DeleteMessageCommand
+            ??= new LambdaCommand(OnDeleteMessageCommandExecuted, CanDeleteMessageCommandExecute);
+
+        private bool CanDeleteMessageCommandExecute(object p) => true;
+
+        private void OnDeleteMessageCommandExecuted(object p)
+        {
+            MessageCollection.Remove(SelectedMessageInMessadgeList);
+            SelectedMessageInMessadgeList = MessageCollection.FirstOrDefault();
+        }
     }
 }

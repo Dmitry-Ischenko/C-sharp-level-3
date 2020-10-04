@@ -105,7 +105,7 @@
                                 <TextBlock Text="Пароль: " Grid.Row="1" Grid.Column="2"/>
                                 <TextBlock Text="Адрес сервера: " Grid.Row="2" Grid.Column="0"/>
                                 <TextBlock Text="Порт: " Grid.Row="2" Grid.Column="2"/>
-                                <Button Content="Сохранить и проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" Click="OnTestMessage"/>
+                                <Button Content="Проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" Click="OnTestMessage"/>
                             </Grid>
                         </DockPanel>
                     </GroupBox>
@@ -248,8 +248,8 @@
                             <GroupBox Header="тело письма">
                                 <DockPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
-                                        <Button Margin="2" Click="OnAddMessage">Добавить</Button>
-                                        <Button Margin="2" Click="OnDeleteSelectedMessage">Удалить</Button>
+                                        <Button Margin="2" Command="{Binding AddMessageCommand}">Добавить</Button>
+                                        <Button Margin="2" Command="{Binding DeleteMessageCommand}">Удалить</Button>
                                     </StackPanel>
                                     <TextBox AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                                          Text="{Binding SelectedItem.Body, ElementName=MessagesList}"/>
