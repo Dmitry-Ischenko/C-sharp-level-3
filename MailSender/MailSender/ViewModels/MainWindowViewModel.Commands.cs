@@ -12,6 +12,7 @@ namespace MailSender.ViewModels
 {
     partial class MainWindowViewModel : ViewModel
     {
+        #region Комманда для удаления отправителей
         private ICommand _DeleteSenderCommand;
 
         public ICommand DeleteSenderCommand => _DeleteSenderCommand
@@ -27,7 +28,9 @@ namespace MailSender.ViewModels
             SenderCollection.Remove(sender);
             SelectSenderSettings = SenderCollection.FirstOrDefault();
         }
+        #endregion
 
+        #region Комманда для сохранения изменений в отправителе
         private ICommand _SaveSenderCommand;
 
         public ICommand SaveSenderCommand => _SaveSenderCommand
@@ -48,18 +51,20 @@ namespace MailSender.ViewModels
             if (Int32.TryParse((string)value[4], out int Port))
             {
                 SelectSenderSettings.Port = Port;
-            }            
+            }
             SelectSenderSettings.UseSSl = UseSSl;
             SelectSenderSettings.Address = Address;
             if (!(Password is null))
             {
-                if (Password.Length >0)
+                if (Password.Length > 0)
                 {
                     SelectSenderSettings.Password = Password;
                 }
             }
         }
+        #endregion
 
+        #region Добавить пустого отправителя
         private ICommand _AddSenderCommand;
 
         public ICommand AddSenderCommand => _AddSenderCommand
@@ -73,7 +78,9 @@ namespace MailSender.ViewModels
             SenderCollection.Add(sender);
             SelectSenderSettings = sender;
         }
+        #endregion
 
+        #region Добавить пустое письмо
         private ICommand _AddMessageCommand;
 
         public ICommand AddMessageCommand => _AddMessageCommand
@@ -87,7 +94,9 @@ namespace MailSender.ViewModels
             MessageCollection.Add(message);
             SelectedMessageInMessadgeList = message;
         }
+        #endregion
 
+        #region Удалить письмо
         private ICommand _DeleteMessageCommand;
 
         public ICommand DeleteMessageCommand => _DeleteMessageCommand
@@ -100,5 +109,39 @@ namespace MailSender.ViewModels
             MessageCollection.Remove(SelectedMessageInMessadgeList);
             SelectedMessageInMessadgeList = MessageCollection.FirstOrDefault();
         }
+        #endregion
+
+        #region Проверить настройки SMTP
+        private ICommand _TestSMTPSettingsCommand;
+
+        public ICommand TestSMTPSettingsCommand => _TestSMTPSettingsCommand
+            ??= new LambdaCommand(OnTestSMTPSettingsCommandExecuted, CanTestSMTPSettingsCommandExecute);
+
+        private bool CanTestSMTPSettingsCommandExecute(object p) => true;
+
+        private void OnTestSMTPSettingsCommandExecuted(object p)
+        {
+#if DEBUG
+            bool sendMSG = false;
+#else
+            bool sendMSG = true;
+#endif
+
+            var mailsender = _MailService.GetSender(
+                    SelectSenderSettings.Server,
+                    SelectSenderSettings.Port,
+                    SelectSenderSettings.UseSSl,
+                    SelectSenderSettings.Address,
+                    SelectSenderSettings.Password,
+                    SelectSenderSettings.Name,
+                    sendMSG
+                );
+            mailsender.Send(
+                SelectSenderSettings.Address,
+                "Проверка почты",
+                "Это тестовое сообщение, для проверки почты"
+                );
+        } 
+#endregion
     }
 }

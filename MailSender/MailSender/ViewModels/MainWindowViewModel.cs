@@ -1,4 +1,5 @@
-﻿using MailSender.Data;
+﻿using MailClient.lib.Interfaces;
+using MailSender.Data;
 using MailSender.Infrastructure.Commands;
 using MailSender.Models;
 using MailSender.ViewModels.Base;
@@ -34,6 +35,7 @@ namespace MailSender.ViewModels
             set => Set(ref _MessageCollection, value);
         }
 
+        #region Выбранный отправитель в окне настроек
         private Sender _SelectSenderSettings;
 
         public Sender SelectSenderSettings
@@ -41,17 +43,23 @@ namespace MailSender.ViewModels
             get => _SelectSenderSettings;
             set => Set(ref _SelectSenderSettings, value);
         }
+        #endregion
 
+        #region Выбранное письмо в окне редактирования письм
         private Message _SelectedMessageInMessadgeList;
 
         public Message SelectedMessageInMessadgeList
         {
             get => _SelectedMessageInMessadgeList;
             set => Set(ref _SelectedMessageInMessadgeList, value);
-        }     
+        }
+        #endregion
 
-        public MainWindowViewModel(ProgramData _ProgramData)
+        private readonly IMailService _MailService;
+
+        public MainWindowViewModel(ProgramData _ProgramData,IMailService MailService)
         {
+            _MailService = MailService;
             SenderCollection = _ProgramData.SendersCollection;
             RecipientCollection = _ProgramData.RecipientsCollection;
             MessageCollection = _ProgramData.MessagesCollection;

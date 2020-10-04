@@ -105,7 +105,7 @@
                                 <TextBlock Text="Пароль: " Grid.Row="1" Grid.Column="2"/>
                                 <TextBlock Text="Адрес сервера: " Grid.Row="2" Grid.Column="0"/>
                                 <TextBlock Text="Порт: " Grid.Row="2" Grid.Column="2"/>
-                                <Button Content="Проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" Click="OnTestMessage"/>
+                                <Button Content="Проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" Command="{Binding TestSMTPSettingsCommand}"/>
                             </Grid>
                         </DockPanel>
                     </GroupBox>
@@ -161,7 +161,7 @@
                                       DisplayMemberPath="Subject"
                                       ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.MessagesCollection}"/>
 
-                            <Button Content="Отправить сейчас" Margin="0,2,0,0" Click="onSendNow"/>
+                            <Button Content="Отправить сейчас" Margin="0,2,0,0" />
                             <Button Content="Добавить задание" Margin="0,2,0,0" IsEnabled="False"/>
                         </StackPanel>
                     </GroupBox>
