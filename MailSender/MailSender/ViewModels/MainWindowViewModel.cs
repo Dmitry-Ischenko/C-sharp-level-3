@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace MailSender.ViewModels
 {
-    class MainWindowViewModel: ViewModel
+    partial class MainWindowViewModel: ViewModel
     {
         private ObservableCollection<Sender> _SenderCollection;
         private ObservableCollection<Recipient> _RecipientCollection;
@@ -48,23 +48,7 @@ namespace MailSender.ViewModels
         {
             get => _SelectedMessageInMessadgeList;
             set => Set(ref _SelectedMessageInMessadgeList, value);
-        }
-
-        private ICommand _DeleteSenderCommand;
-
-        public ICommand DeleteSenderCommand => _DeleteSenderCommand
-            ??= new LambdaCommand(OnDeleteSenderCommandExecuted, CanDeleteSenderCommandExecute);
-
-        private bool CanDeleteSenderCommandExecute(object p) => p is Sender || SelectSenderSettings != null;
-
-        private void OnDeleteSenderCommandExecuted(object p)
-        {
-            var sender = p as Sender ?? SelectSenderSettings;
-            if (sender is null) return;
-
-            SenderCollection.Remove(sender);
-            SelectSenderSettings = SenderCollection.FirstOrDefault();
-        }
+        }     
 
         public MainWindowViewModel(ProgramData _ProgramData)
         {

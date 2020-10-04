@@ -6,11 +6,15 @@
         xmlns:local="clr-namespace:MailSender"
         xmlns:data="clr-namespace:MailSender.Data"
         xmlns:m="clr-namespace:MailSender.Models"
+        xmlns:convert="clr-namespace:MailSender.Infrastructure.Converters"
         mc:Ignorable="d"
         Title="Спамщик" Height="450" Width="800">
     <Window.DataContext>
         <Binding Path="MainWindowModel" Source="{StaticResource Locator}"/>
     </Window.DataContext>
+    <Window.Resources>
+        <convert:ToSenderConverter x:Key="SenderConvertor"/>
+    </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл"/>
@@ -54,7 +58,19 @@
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
                                 <Button Content="Удалить" Margin="2" Command="{Binding DeleteSenderCommand}" />
-                                <Button Content="Сохранить" Margin="2" Click="OnAddSenderInCollection"/>
+                                <Button Content="Добавить" Margin="2" Command="{Binding AddSenderCommand}"/>
+                                <Button Content="Сохранить" Margin="2" Command="{Binding SaveSenderCommand}" >
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource SenderConvertor}" >
+                                            <Binding ElementName="NameBox" Path="Text"/>
+                                            <Binding ElementName="AddressBox" Path="Text"/>
+                                            <Binding ElementName="ServerBox" Path="Text"/>
+                                            <Binding ElementName="PasswordBox" Path="Password"/>
+                                            <Binding ElementName="PortBox" Path="Text"/>
+                                            <Binding ElementName="SslBox" Path="IsChecked"/>
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                </Button>
                             </StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -70,19 +86,13 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Имя: " Grid.Row="0" Grid.Column="0"/>
-                                <TextBlock Text="Логин: " Grid.Row="1" Grid.Column="0"/>
-                                <TextBlock Text="Пароль: " Grid.Row="1" Grid.Column="2"/>
-                                <TextBlock Text="Адрес сервера: " Grid.Row="2" Grid.Column="0"/>
-                                <TextBlock Text="Порт: " Grid.Row="2" Grid.Column="2"/>
-
+                                
                                 <TextBox Name="NameBox" Width="120" Grid.Row="0" Grid.Column="1"
                                          Text="{Binding SelectedItem.Name,ElementName=UserSelected, Mode=OneWay}"/>
                                 <TextBox Name="AddressBox" Width="120" Grid.Row="1" Grid.Column="1"
                                          Text="{Binding SelectedItem.Address,ElementName=UserSelected, Mode=OneWay}"/>
                                 <TextBox Name="ServerBox" Width="120" Grid.Row="2" Grid.Column="1"
                                          Text="{Binding SelectedItem.Server,ElementName=UserSelected, Mode=OneWay}"/>
-
                                 <PasswordBox Name="PasswordBox" Width="150" Grid.Row="1" Grid.Column="3" Margin="2"/>
                                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="3">
                                     <TextBox Name="PortBox" Width="50" 
@@ -90,6 +100,11 @@
                                     <CheckBox Name="SslBox" Content="SSL" Margin="2" 
                                               IsChecked="{Binding SelectedItem.UseSSl,ElementName=UserSelected, Mode=OneWay}"/>
                                 </StackPanel>
+                                <TextBlock Text="Имя: " Grid.Row="0" Grid.Column="0"/>
+                                <TextBlock Text="Логин: " Grid.Row="1" Grid.Column="0"/>
+                                <TextBlock Text="Пароль: " Grid.Row="1" Grid.Column="2"/>
+                                <TextBlock Text="Адрес сервера: " Grid.Row="2" Grid.Column="0"/>
+                                <TextBlock Text="Порт: " Grid.Row="2" Grid.Column="2"/>
                                 <Button Content="Сохранить и проверить" Margin="2" Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" Click="OnTestMessage"/>
                             </Grid>
                         </DockPanel>
