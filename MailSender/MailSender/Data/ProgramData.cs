@@ -16,14 +16,12 @@ namespace MailSender.Data
         private ObservableCollection<Sender> _SendersCollection;
         private ObservableCollection<Recipient> _RecipientsCollection;
         private ObservableCollection<Message> _MessagesCollection;
-
         
         private string _SendersCollectionPath;
         private string _RecipientsCollectionPath;
         private string _MessagesCollectionPath;
 
         private Dictionary<Type, XmlSerializer> _SerializerDictionary = new Dictionary<Type, XmlSerializer>();
-
 
         public ObservableCollection<Sender> SendersCollection
         {
@@ -41,7 +39,6 @@ namespace MailSender.Data
             set => Set(ref _MessagesCollection, value);
         } 
 
-
         public ProgramData ()
         {
             
@@ -49,23 +46,20 @@ namespace MailSender.Data
             _SendersCollectionPath = $"{_ProgramPath}\\SendersCollection.xml";
             _RecipientsCollectionPath = $"{_ProgramPath}\\RecipientsCollection.xml";
             _MessagesCollectionPath = $"{_ProgramPath}\\MessagesCollection.xml";
-            //System.Xml.Serialization.XmlSerializer formatter = new System.Xml.Serialization.XmlSerializer(typeof(List<Sender>));
             _SerializerDictionary.Add(typeof(ObservableCollection<Sender>), new XmlSerializer(typeof(ObservableCollection<Sender>)));
             _SerializerDictionary.Add(typeof(ObservableCollection<Recipient>), new XmlSerializer(typeof(ObservableCollection<Recipient>)));
             _SerializerDictionary.Add(typeof(ObservableCollection<Message>), new XmlSerializer(typeof(ObservableCollection<Message>)));
-            //_SerializerDictionary.Add(typeof(Sender), new XmlSerializer(typeof(Sender)));
-            //_SerializerDictionary.Add(typeof(Recipient), new XmlSerializer(typeof(Recipient)));
-            //_SerializerDictionary.Add(typeof(Message), new XmlSerializer(typeof(Message)));
             LoadData();
-            SendersCollection.CollectionChanged += SaveData2;
+            SendersCollection.CollectionChanged += SendersCollection_Changed;
+            RecipientsCollection.CollectionChanged += RecipientsCollection_Changed;
+            MessagesCollection.CollectionChanged += MessagesCollection_Changed;            
+            //this.PropertyChanged += SaveData; // не работает(
 
         }
 
-        private void SaveData2(object sender, NotifyCollectionChangedEventArgs e)
+        private void SaveData(object sender, PropertyChangedEventArgs e)
         {
-
-            var name = nameof(sender);
-            switch (name)
+            switch (e.PropertyName)
             {
                 case nameof(SendersCollection):
                     {
@@ -85,30 +79,22 @@ namespace MailSender.Data
             }
         }
 
-        private void SaveData(object sender, PropertyChangedEventArgs e)
+        private void MessagesCollection_Changed(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Debug.WriteLine("WTF?");
-            switch (e.PropertyName) {
-                case nameof(SendersCollection):
-                    {
-                        SaveInFile(_SendersCollectionPath, SendersCollection);
-                        break;
-                    }
-                case nameof(RecipientsCollection):
-                    {
-                        SaveInFile(_RecipientsCollectionPath, RecipientsCollection);
-                        break;
-                    }
-                case nameof(MessagesCollection):
-                    {
-                        SaveInFile(_MessagesCollectionPath, MessagesCollection);
-                        break;
-                    }
-            }
-
+            SaveInFile(_MessagesCollectionPath, MessagesCollection);
         }
 
-        private void SaveInFile<T>(string path,T ObjectSerializer)
+        private void RecipientsCollection_Changed(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            SaveInFile(_RecipientsCollectionPath, RecipientsCollection);
+        }
+
+        private void SendersCollection_Changed(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            SaveInFile(_SendersCollectionPath, SendersCollection);
+        }        
+
+         private void SaveInFile<T>(string path,T ObjectSerializer)
         {
 
             XmlSerializer formatter = _SerializerDictionary[typeof(T)];
@@ -122,34 +108,6 @@ namespace MailSender.Data
             }
             catch(Exception e) { Debug.WriteLine(e.ToString()); }
         }
-        //private void LoadFromFile<T>(string path, ObservableCollection<T> ObjectSerializer,Type type)
-        //{
-        //    XmlSerializer formatter = _SerializerDictionary[type];
-        //    try
-        //    {
-        //        using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-        //        {
-                    
-        //            switch($"{type.GetType()}")
-        //            {
-        //                case "Sender":
-        //                    {                               
-        //                        foreach (var item in (Sender[])formatter.Deserialize(fs))
-        //                        {
-        //                            ObjectSerializer.Add(item);
-        //                        }
-        //                        break;
-        //                    }
-        //            }
-
-        //            fs.Close();
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Debug.WriteLine(e.ToString());
-        //    }
-        //}
 
         private void LoadData()
         {
@@ -173,7 +131,6 @@ namespace MailSender.Data
                 {
                     Debug.WriteLine(e.ToString());
                 }
-                //LoadFromFile(_SendersCollectionPath, SendersCollection,typeof(Sender));
             } 
             else
             {
