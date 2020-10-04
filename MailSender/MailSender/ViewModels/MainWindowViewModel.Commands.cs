@@ -1,12 +1,15 @@
 ﻿using MailSender.Infrastructure.Commands;
 using MailSender.Models;
 using MailSender.ViewModels.Base;
+using MailSender.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
+using System.Windows;
 
 namespace MailSender.ViewModels
 {
@@ -141,7 +144,58 @@ namespace MailSender.ViewModels
                 "Проверка почты",
                 "Это тестовое сообщение, для проверки почты"
                 );
-        } 
-#endregion
+        }
+        #endregion
+
+        private SendWindow _Window;
+        private ICommand _SendVindowShowCommand;
+
+        public ICommand SendVindowShowCommand => _SendVindowShowCommand
+            ??= new LambdaCommand(OnSendVindowShowCommand, CanSendVindowShowCommand);
+
+        private bool CanSendVindowShowCommand(object p)
+        {
+            if (SelectMessageSend is null) return false;
+            if (SelectSenderSend is null) return false;
+            if (RecipientCollection.Count == 0) return false;
+            return true;
+        }
+
+        private void OnSendVindowShowCommand(object p)
+        {
+
+            foreach (var item in RecipientCollection)
+            {
+                if (item.Active == true)
+                {
+                    var copyitem = new Recipient() {
+                        Active = false,
+                         Address = item.Address,
+                          Name = item.Name
+                    };
+                    _recipients.Add(copyitem);
+                }
+            }
+            var window = new SendWindow
+            {
+                Owner = Application.Current.MainWindow
+            };
+            _Window = window;
+            window.Closed += OnWindowClosed;
+            window.Loaded += OnWindowLoaded;
+            window.ShowDialog();
+        }
+
+        private void OnWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Wow");
+        }
+
+        private void OnWindowClosed(object sender, EventArgs e)
+        {
+            ((Window)sender).Closed -= OnWindowClosed;
+            _Window = null;
+            _recipients.Clear();
+        }
     }
 }

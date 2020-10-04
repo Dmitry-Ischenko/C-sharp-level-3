@@ -55,6 +55,22 @@ namespace MailSender.ViewModels
         }
         #endregion
 
+        private Sender _SelectSenderSend;
+
+        public Sender SelectSenderSend
+        {
+            get => _SelectSenderSend;
+            set => Set(ref _SelectSenderSend, value);
+        }
+
+        private Message _SelectMessageSend;
+
+        public Message SelectMessageSend
+        {
+            get => _SelectMessageSend;
+            set => Set(ref _SelectMessageSend, value);
+        }
+
         private readonly IMailService _MailService;
 
         public MainWindowViewModel(ProgramData _ProgramData,IMailService MailService)
@@ -65,6 +81,13 @@ namespace MailSender.ViewModels
             MessageCollection = _ProgramData.MessagesCollection;
             if (SenderCollection.Count > 0) SelectSenderSettings = SenderCollection[0];
             //MessageBox.Show($"{ProgramData.GetCountInstances}");
+        }
+
+        private List<Recipient> _recipients = new List<Recipient>();
+        public List<Recipient> Recipients
+        {
+            get => _recipients;
+            set => Set(ref _recipients, value);
         }
     }
 }

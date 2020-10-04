@@ -139,7 +139,8 @@
                             <Calendar x:Name="Calendar"/>
                             <TextBlock Text="Адрес отправителя"/>
                             <ComboBox Name="TaskSenderSelected" SelectedIndex="0" 
-                                      ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.SendersCollection}">
+                                      ItemsSource="{Binding SenderCollection}"
+                                      SelectedItem="{Binding SelectSenderSend}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="m:Sender">
                                         <StackPanel Orientation="Horizontal">
@@ -159,9 +160,10 @@
                             <TextBlock Text="Сообщение"/>
                             <ComboBox Name="TaskMessageSelected" SelectedIndex="0" 
                                       DisplayMemberPath="Subject"
-                                      ItemsSource="{Binding Source={StaticResource Locator},Path=ProgramDataLoc.MessagesCollection}"/>
+                                      ItemsSource="{Binding MessageCollection}" 
+                                      SelectedValue="{Binding SelectMessageSend}"/>
 
-                            <Button Content="Отправить сейчас" Margin="0,2,0,0" />
+                            <Button Content="Отправить сейчас" Margin="0,2,0,0" Command="{Binding SendVindowShowCommand}"/>
                             <Button Content="Добавить задание" Margin="0,2,0,0" IsEnabled="False"/>
                         </StackPanel>
                     </GroupBox>

@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:MailSender"
         xmlns:m="clr-namespace:MailSender.Models"
         mc:Ignorable="d"        
-        Title="SendWindow" Height="450" Width="800" Loaded="LoadedWindow">
+        Title="SendWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <Binding Path="MainWindowModel" Source="{StaticResource Locator}"/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -17,23 +20,25 @@
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" Margin="2">
                         <TextBlock Text="Имя:"/>
-                        <TextBox Name="Name" Width="100" IsReadOnly="True"/>
+                        <TextBox Width="100" IsReadOnly="True"
+                                 Text="{Binding SelectSenderSend.Name}"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="2">
                         <TextBlock Text="Адрес:"/>
-                        <TextBox Name="Address" Width="100" IsReadOnly="True"/>
+                        <TextBox Width="100" IsReadOnly="True"
+                                 Text="{Binding SelectSenderSend.Address}"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="2">
                         <TextBlock Text="Количество получателей:"/>
-                        <TextBox Name="RecipientCount" IsReadOnly="True"/>
+                        <TextBox IsReadOnly="True" Text="{Binding Recipients.Count, Mode=OneWay}"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="Заголовок" DockPanel.Dock="Top">
-                <TextBox Name="Subject" IsReadOnly="True" Margin="2"/>
+                <TextBox Text="{Binding SelectMessageSend.Subject}"  IsReadOnly="True" Margin="2"/>
             </GroupBox>
             <GroupBox Header="Сообщение">
-                <TextBox Name="Body" IsReadOnly="True" Margin="2" 
+                <TextBox Text="{Binding SelectMessageSend.Body}" IsReadOnly="True" Margin="2" 
                          AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
             </GroupBox>
         </DockPanel>
