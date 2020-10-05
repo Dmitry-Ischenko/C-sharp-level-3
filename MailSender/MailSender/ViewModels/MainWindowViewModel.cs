@@ -83,8 +83,8 @@ namespace MailSender.ViewModels
             //MessageBox.Show($"{ProgramData.GetCountInstances}");
         }
 
-        private List<Recipient> _recipients = new List<Recipient>();
-        public List<Recipient> Recipients
+        private ObservableCollection<Recipient> _recipients = new ObservableCollection<Recipient>();
+        public ObservableCollection<Recipient> Recipients
         {
             get => _recipients;
             set => Set(ref _recipients, value);

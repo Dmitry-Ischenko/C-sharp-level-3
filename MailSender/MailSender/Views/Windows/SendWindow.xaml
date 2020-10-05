@@ -42,7 +42,7 @@
                          AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
             </GroupBox>
         </DockPanel>
-        <ListBox Name="ViewListBox" Grid.Row="1" Margin="2">
+        <ListBox Name="ViewListBox" Grid.Row="1" Margin="2" ItemsSource="{Binding Recipients}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -53,7 +53,22 @@
                     <GroupBox Header="{Binding Name}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Address}"/>
-                            <TextBlock Text=" - Отправленно" Foreground="Green"/>
+                            <TextBlock Margin="2,0,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Active}" Value="true">
+                                                <Setter Property="Text" Value="Отправленно"/>
+                                                <Setter Property="Foreground" Value="Green"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=Active}" Value="false">
+                                                <Setter Property="Text" Value="Отправляем"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                         </StackPanel>
                     </GroupBox>
                 </DataTemplate>

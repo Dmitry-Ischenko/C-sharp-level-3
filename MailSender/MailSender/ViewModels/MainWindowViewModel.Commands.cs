@@ -147,6 +147,7 @@ namespace MailSender.ViewModels
         }
         #endregion
 
+        #region Отправляем почту
         private SendWindow _Window;
         private ICommand _SendVindowShowCommand;
 
@@ -168,10 +169,11 @@ namespace MailSender.ViewModels
             {
                 if (item.Active == true)
                 {
-                    var copyitem = new Recipient() {
+                    var copyitem = new Recipient()
+                    {
                         Active = false,
-                         Address = item.Address,
-                          Name = item.Name
+                        Address = item.Address,
+                        Name = item.Name
                     };
                     _recipients.Add(copyitem);
                 }
@@ -188,7 +190,25 @@ namespace MailSender.ViewModels
 
         private void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Wow");
+#if DEBUG
+            var sendMSG = false;
+#else
+var sendMSG = true;
+#endif
+            var mailsender = _MailService.GetSender(
+                    SelectSenderSend.Server,
+                    SelectSenderSend.Port,
+                    SelectSenderSend.UseSSl,
+                    SelectSenderSend.Address,
+                    SelectSenderSend.Password,
+                    SelectSenderSend.Name,
+                    sendMSG
+                );
+            foreach (var item in Recipients)
+            {
+                mailsender.Send(item.Address, SelectMessageSend.Subject, SelectMessageSend.Body);
+                item.Active = true;
+            }
         }
 
         private void OnWindowClosed(object sender, EventArgs e)
@@ -196,6 +216,7 @@ namespace MailSender.ViewModels
             ((Window)sender).Closed -= OnWindowClosed;
             _Window = null;
             _recipients.Clear();
-        }
+        } 
+#endregion
     }
 }
