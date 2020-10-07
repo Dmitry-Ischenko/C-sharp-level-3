@@ -1,4 +1,6 @@
-﻿using MailSender.Models.Base;
+﻿using MailClient.lib.Interfaces;
+using MailClient.lib.Service;
+using MailSender.Models.Base;
 
 namespace MailSender.Models
 {
@@ -9,8 +11,14 @@ namespace MailSender.Models
         private string _password;
         private string _server;
         private int _port;
-        private bool _usessl;  
-        
+        private bool _usessl;
+        private readonly IEncryptorService _EncryptorService = new Rfc2898Encryptor();
+        private readonly string EncryptPass = "MailSender!";
+
+        public Sender()
+        {
+            //_EncryptorService = encryptorService;
+        }
         
         public string Name { 
             get=> _name; 
@@ -23,8 +31,8 @@ namespace MailSender.Models
         }
 
         public string Password { 
-            get=> _password; 
-            set=> Set(ref _password, value); 
+            get=> _EncryptorService.Decrypt(_password, EncryptPass);
+            set => Set(ref _password, _EncryptorService.Encrypt(value, EncryptPass)); 
         }
 
         public string Server { 

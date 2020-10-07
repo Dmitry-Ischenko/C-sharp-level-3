@@ -55,6 +55,7 @@ namespace MailSender.ViewModels
         }
         #endregion
 
+        #region Выбранные комбобокс на странице отпрваки
         private Sender _SelectSenderSend;
 
         public Sender SelectSenderSend
@@ -71,7 +72,10 @@ namespace MailSender.ViewModels
             set => Set(ref _SelectMessageSend, value);
         }
 
+        #endregion
         private readonly IMailService _MailService;
+
+        
 
         public MainWindowViewModel(ProgramData _ProgramData,IMailService MailService)
         {
@@ -80,6 +84,8 @@ namespace MailSender.ViewModels
             RecipientCollection = _ProgramData.RecipientsCollection;
             MessageCollection = _ProgramData.MessagesCollection;
             if (SenderCollection.Count > 0) SelectSenderSettings = SenderCollection[0];
+            SelectMessageSend = MessageCollection.FirstOrDefault();
+            SelectSenderSend = SenderCollection.FirstOrDefault();
             //MessageBox.Show($"{ProgramData.GetCountInstances}");
         }
 

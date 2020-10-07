@@ -7,6 +7,7 @@
         xmlns:data="clr-namespace:MailSender.Data"
         xmlns:m="clr-namespace:MailSender.Models"
         xmlns:convert="clr-namespace:MailSender.Infrastructure.Converters"
+        xmlns:validation="clr-namespace:MailSender.Infrastructure.ValidationRules"
         mc:Ignorable="d"
         Title="Спамщик" Height="450" Width="800">
     <Window.DataContext>
@@ -89,8 +90,14 @@
                                 
                                 <TextBox Name="NameBox" Width="120" Grid.Row="0" Grid.Column="1"
                                          Text="{Binding SelectedItem.Name,ElementName=UserSelected, Mode=OneWay}"/>
-                                <TextBox Name="AddressBox" Width="120" Grid.Row="1" Grid.Column="1"
-                                         Text="{Binding SelectedItem.Address,ElementName=UserSelected, Mode=OneWay}"/>
+                                <TextBox Name="AddressBox" Width="120" Grid.Row="1" Grid.Column="1">
+                                    <Binding Path="SelectedItem.Address" ElementName="UserSelected"  Mode="OneWay"  NotifyOnValidationError="True"
+                                             UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validation:RegExValidation Pattern="(\w+\.)*\w+@(\w+\.)+[A-Za-z]+" ErrorMessage="Строка адреса имела неверный формат"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox>
                                 <TextBox Name="ServerBox" Width="120" Grid.Row="2" Grid.Column="1"
                                          Text="{Binding SelectedItem.Server,ElementName=UserSelected, Mode=OneWay}"/>
                                 <PasswordBox Name="PasswordBox" Width="150" Grid.Row="1" Grid.Column="3" Margin="2"/>
