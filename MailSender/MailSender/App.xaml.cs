@@ -1,4 +1,11 @@
-﻿using System;
+﻿using MailClient.lib.Interfaces;
+using MailClient.lib.Service;
+using MailSender.Data;
+using MailSender.Infrastructure.Converters;
+using MailSender.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +20,21 @@ namespace MailSender
     /// </summary>
     public partial class App : Application
     {
+        private static IHost _Hosting;
+
+        public static IHost Hosting => _Hosting
+            ??= Host.CreateDefaultBuilder(Environment.GetCommandLineArgs())
+               .ConfigureServices(ConfigureServices)
+               .Build();
+
+        private static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
+        {
+            services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<ProgramData>();
+            services.AddTransient<IMailService, SmtpMailService>();
+        }
+
+        public static IServiceProvider Services => Hosting.Services;
+
     }
 }
