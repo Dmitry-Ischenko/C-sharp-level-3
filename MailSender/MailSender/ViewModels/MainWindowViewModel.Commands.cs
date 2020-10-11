@@ -1,5 +1,4 @@
 ﻿using MailSender.Infrastructure.Commands;
-using MailSender.Models;
 using MailSender.ViewModels.Base;
 using MailSender.Views.Windows;
 using System;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows;
+using MailClient.lib.Models;
 
 namespace MailSender.ViewModels
 {
@@ -203,20 +203,29 @@ namespace MailSender.ViewModels
 #else
 var sendMSG = true;
 #endif
-            var mailsender = _MailService.GetSender(
+            var mailsender = _MailService.GetSenderAndNotify(
                     SelectSenderSend.Server,
                     SelectSenderSend.Port,
                     SelectSenderSend.UseSSl,
                     SelectSenderSend.Address,
                     SelectSenderSend.Password,
                     SelectSenderSend.Name,
-                    sendMSG
+                    sendMSG,
+                    Notify
                 );
             foreach (var item in Recipients)
             {
-                mailsender.Send(item.Address, SelectMessageSend.Subject, SelectMessageSend.Body);
-                item.Active = true;
+                mailsender.SendAndNotify(item, SelectMessageSend);
+                //item.Active = true;
             }
+        }
+
+        private void Notify(Recipient arg1, bool arg2)
+        {
+            if (arg2)
+            {
+                arg1.Active = true;
+            } 
         }
 
         private void OnWindowClosed(object sender, EventArgs e)
