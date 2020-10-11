@@ -1,6 +1,6 @@
-﻿using MailSender.Models.Base;
+﻿using MailClient.lib.Models.Base;
 
-namespace MailSender.Models
+namespace MailClient.lib.Models
 {
     public class Message: ModelBase
     {

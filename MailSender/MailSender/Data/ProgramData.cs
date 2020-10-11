@@ -1,4 +1,4 @@
-﻿using MailSender.Models;
+﻿using MailClient.lib.Models;
 using MailSender.ViewModels.Base;
 using System;
 using System.Collections.Generic;

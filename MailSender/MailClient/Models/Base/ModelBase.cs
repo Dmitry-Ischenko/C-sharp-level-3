@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace MailSender.Models.Base
+namespace MailClient.lib.Models.Base
 {
     public abstract class ModelBase: INotifyPropertyChanged
     {

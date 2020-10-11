@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MailSender"
         xmlns:data="clr-namespace:MailSender.Data"
-        xmlns:m="clr-namespace:MailSender.Models"
+        xmlns:m="clr-namespace:MailClient.lib.Models;assembly=MailClient.lib"
         xmlns:convert="clr-namespace:MailSender.Infrastructure.Converters"
         xmlns:validation="clr-namespace:MailSender.Infrastructure.ValidationRules"
         mc:Ignorable="d"
