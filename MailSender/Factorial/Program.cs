@@ -14,10 +14,16 @@ namespace Factorial
             //new Thread(() => Sum(10)).Start();
             var z = new FactorialCalculation(10);
             z.ResultCompleted += getResult;
+            z.GetResultFunc += getResult2;
             z.Start();
             Console.WriteLine("Ждем завершение вычисления факториала");
 
             Console.ReadKey();
+        }
+
+        private static void getResult2(bool e)
+        {
+            throw new NotImplementedException();
         }
 
         private static void getResult(int e)
@@ -64,6 +70,7 @@ namespace Factorial
         private readonly int __n;
         public delegate void Result(int e);
         public event Result ResultCompleted;
+        public event Action<bool> GetResultFunc;
         private Thread _Thread;
         public FactorialCalculation(int n)
         {

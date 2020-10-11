@@ -137,15 +137,23 @@ namespace MailSender.ViewModels
                     SelectSenderSettings.Address,
                     SelectSenderSettings.Password,
                     SelectSenderSettings.Name,
-                    sendMSG
+                    sendMSG,
+                    SendSuccess
                 );
-            mailsender.Send(
+            //mailsender.
+            mailsender.SendThread(
                 SelectSenderSettings.Address,
                 "Проверка почты",
                 "Это тестовое сообщение, для проверки почты"
                 );
         }
         #endregion
+
+        private void SendSuccess(bool a)
+        {
+            if (a) MessageBox.Show("Тестовое сообщение отправленно");
+            else MessageBox.Show("Все пропало!");
+        }
 
         #region Отправляем почту
         private SendWindow _Window;
