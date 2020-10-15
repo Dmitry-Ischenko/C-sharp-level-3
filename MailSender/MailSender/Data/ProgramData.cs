@@ -1,4 +1,4 @@
-﻿using MailSender.Models;
+﻿using MailClient.lib.Models;
 using MailSender.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -52,10 +52,11 @@ namespace MailSender.Data
             LoadData();
             SendersCollection.CollectionChanged += SendersCollection_Changed;
             RecipientsCollection.CollectionChanged += RecipientsCollection_Changed;
-            MessagesCollection.CollectionChanged += MessagesCollection_Changed;            
+            MessagesCollection.CollectionChanged += MessagesCollection_Changed;
             //this.PropertyChanged += SaveData; // не работает(
 
         }
+
 
         private void SaveData(object sender, PropertyChangedEventArgs e)
         {

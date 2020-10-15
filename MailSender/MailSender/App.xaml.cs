@@ -32,6 +32,7 @@ namespace MailSender
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<ProgramData>();
             services.AddTransient<IMailService, SmtpMailService>();
+            services.AddSingleton<IEncryptorService, Rfc2898Encryptor>();
         }
 
         public static IServiceProvider Services => Hosting.Services;
