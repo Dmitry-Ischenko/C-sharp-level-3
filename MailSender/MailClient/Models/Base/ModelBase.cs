@@ -5,6 +5,8 @@ namespace MailClient.lib.Models.Base
 {
     public abstract class ModelBase: INotifyPropertyChanged
     {
+        public int Id { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
