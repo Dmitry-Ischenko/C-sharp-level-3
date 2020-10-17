@@ -2,6 +2,7 @@
 using MailClient.lib.Models;
 using MailSender.Data;
 using MailSender.Infrastructure.Commands;
+using MailSender.interfaces;
 using MailSender.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -77,12 +78,15 @@ namespace MailSender.ViewModels
 
         
 
-        public MainWindowViewModel(ProgramData _ProgramData,IMailService MailService)
+        public MainWindowViewModel(IMailService MailService,
+            IStore<Recipient> RecipientStore,
+            IStore<Message> MessageStore,
+            IStore<Sender> SenderStore)
         {
             _MailService = MailService;
-            SenderCollection = _ProgramData.SendersCollection;
-            RecipientCollection = _ProgramData.RecipientsCollection;
-            MessageCollection = _ProgramData.MessagesCollection;
+            SenderCollection = new ObservableCollection<Sender>(SenderStore.GetAll());
+            RecipientCollection = new ObservableCollection<Recipient>(RecipientStore.GetAll());
+            MessageCollection = new ObservableCollection<Message>(MessageStore.GetAll());
             if (SenderCollection.Count > 0) SelectSenderSettings = SenderCollection[0];
             SelectMessageSend = MessageCollection.FirstOrDefault();
             SelectSenderSend = SenderCollection.FirstOrDefault();
