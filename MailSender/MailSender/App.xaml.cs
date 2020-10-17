@@ -1,7 +1,10 @@
 ﻿using MailClient.lib.Interfaces;
+using MailClient.lib.Models;
 using MailClient.lib.Service;
 using MailSender.Data;
+using MailSender.Data.Stores.InDB;
 using MailSender.Infrastructure.Converters;
+using MailSender.interfaces;
 using MailSender.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +39,9 @@ namespace MailSender
             services.AddSingleton<IEncryptorService, Rfc2898Encryptor>();
             string sql_string = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|Database1.mdf;Integrated Security=True";
             services.AddDbContext<MailSenderDB>(opt => opt.UseSqlServer(sql_string));
+            services.AddSingleton<IStore<Recipient>, RecipientsStoreInDB>();
+            services.AddSingleton<IStore<Message>, MessagesStoreInDB>();
+            services.AddSingleton<IStore<Sender>, SenderStoreInDB>();
         }
 
         public static IServiceProvider Services => Hosting.Services;
