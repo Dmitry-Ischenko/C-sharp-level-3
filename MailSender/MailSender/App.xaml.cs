@@ -46,5 +46,9 @@ namespace MailSender
 
         public static IServiceProvider Services => Hosting.Services;
 
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+        }
     }
 }
