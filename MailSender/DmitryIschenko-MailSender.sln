@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailClient.lib", "MailClien
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lesson5", "Lesson5", "{37F6C66D-1DF7-431F-B6A3-94B0888CF11B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factorial", "Factorial\Factorial.csproj", "{86E83332-560C-41C5-932F-49E59CF9B30C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factorial", "Factorial\Factorial.csproj", "{86E83332-560C-41C5-932F-49E59CF9B30C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lesson6", "Lesson6", "{75B8A044-7F35-4892-879B-6D2E12CD7CEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson6-matrix", "Lesson6\Lesson6-matrix\Lesson6-matrix.csproj", "{A0A87600-41D4-4891-AA80-39ECD4A01FDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +33,17 @@ Global
 		{86E83332-560C-41C5-932F-49E59CF9B30C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86E83332-560C-41C5-932F-49E59CF9B30C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86E83332-560C-41C5-932F-49E59CF9B30C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0A87600-41D4-4891-AA80-39ECD4A01FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0A87600-41D4-4891-AA80-39ECD4A01FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0A87600-41D4-4891-AA80-39ECD4A01FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0A87600-41D4-4891-AA80-39ECD4A01FDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{86E83332-560C-41C5-932F-49E59CF9B30C} = {37F6C66D-1DF7-431F-B6A3-94B0888CF11B}
+		{A0A87600-41D4-4891-AA80-39ECD4A01FDA} = {75B8A044-7F35-4892-879B-6D2E12CD7CEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B34832A8-3AA4-4555-9BF3-A3864530EE1E}
