@@ -115,6 +115,12 @@ namespace MailSender.ViewModels
         #endregion
 
         #region Проверить настройки SMTP
+        private void SendSuccess(bool a)
+        {
+            if (a) MessageBox.Show("Тестовое сообщение отправленно");
+            else MessageBox.Show("Все пропало!");
+        }
+
         private ICommand _TestSMTPSettingsCommand;
 
         public ICommand TestSMTPSettingsCommand => _TestSMTPSettingsCommand
@@ -148,12 +154,6 @@ namespace MailSender.ViewModels
                 );
         }
         #endregion
-
-        private void SendSuccess(bool a)
-        {
-            if (a) MessageBox.Show("Тестовое сообщение отправленно");
-            else MessageBox.Show("Все пропало!");
-        }
 
         #region Отправляем почту
         private SendWindow _Window;
