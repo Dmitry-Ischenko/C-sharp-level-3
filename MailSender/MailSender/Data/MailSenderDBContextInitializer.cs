@@ -8,9 +8,10 @@ namespace MailSender.Data
     {
         public MailSenderDB CreateDbContext(string[] args)
         {
-            string sql_string = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|Database1.mdf;Integrated Security=True";
+            //string sql_string = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|Database1.mdf;Integrated Security=True";
             var optionsBuilder = new DbContextOptionsBuilder<MailSenderDB>();
-            optionsBuilder.UseSqlServer(sql_string);
+            //optionsBuilder.UseSqlServer(sql_string);
+            optionsBuilder.UseSqlite("Filename=MySupperDataBase.db");
             return new MailSenderDB(optionsBuilder.Options);
         }
     }
