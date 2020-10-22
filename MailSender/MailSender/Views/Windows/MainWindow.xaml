@@ -119,16 +119,15 @@
                     <GroupBox Header="Получатели">
                         <DockPanel>
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                <Button Content="Сохранить как" IsEnabled="False"/>
-                                <Button Content="Добавить из файла" IsEnabled="False"/>
-                                <Button Content="Загрузить из файла" IsEnabled="False"/>
-                                <Button Content="Очистить" IsEnabled="False"/>
+                                <Button Content="Сохранить" IsEnabled="False" Margin="2"/>
+                                <Button Content="Обновить" IsEnabled="False" Margin="2"/>
+                                <Button Content="Загрузить из файла" IsEnabled="False" Margin="2"/>
                             </StackPanel>
                             <DataGrid AutoGenerateColumns="False" 
                                       GridLinesVisibility="Vertical"
                                       AlternatingRowBackground="LightBlue"
                                       VerticalGridLinesBrush="Gray"
-                                      ItemsSource="{Binding RecipientCollection}" >
+                                      ItemsSource="{Binding RecipientCollection}">
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn Header="Вкл" Binding="{Binding Active}"/>
                                     <DataGridTextColumn Header="Имя получателя" Binding="{Binding Name}" Width="1*"/>
