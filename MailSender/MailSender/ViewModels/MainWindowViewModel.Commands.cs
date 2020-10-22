@@ -30,6 +30,7 @@ namespace MailSender.ViewModels
 
             SenderCollection.Remove(sender);
             SelectSenderSettings = SenderCollection.FirstOrDefault();
+            __SenderStore.Delete(sender.Id);
         }
         #endregion
 
@@ -64,6 +65,7 @@ namespace MailSender.ViewModels
                     SelectSenderSettings.Password = Password;
                 }
             }
+            __SenderStore.Update(SelectSenderSend);
         }
         #endregion
 
@@ -80,6 +82,7 @@ namespace MailSender.ViewModels
             var sender = new Sender();
             SenderCollection.Add(sender);
             SelectSenderSettings = sender;
+            __SenderStore.Add(sender);
         }
         #endregion
 

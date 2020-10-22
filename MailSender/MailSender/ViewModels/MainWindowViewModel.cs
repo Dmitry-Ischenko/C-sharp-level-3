@@ -20,6 +20,10 @@ namespace MailSender.ViewModels
         private ObservableCollection<Recipient> _RecipientCollection;
         private ObservableCollection<Message> _MessageCollection;
 
+        private readonly IStore<Recipient> __RecipientStore;
+        private readonly IStore<Message> __MessageStore;
+        private readonly IStore<Sender> __SenderStore;
+
         public ObservableCollection<Sender> SenderCollection
         {
             get => _SenderCollection;
@@ -83,6 +87,9 @@ namespace MailSender.ViewModels
             IStore<Message> MessageStore,
             IStore<Sender> SenderStore)
         {
+            __MessageStore = MessageStore;
+            __RecipientStore = RecipientStore;
+            __SenderStore = SenderStore;
             _MailService = MailService;
             SenderCollection = new ObservableCollection<Sender>(SenderStore.GetAll());
             RecipientCollection = new ObservableCollection<Recipient>(RecipientStore.GetAll());
@@ -90,6 +97,7 @@ namespace MailSender.ViewModels
             if (SenderCollection.Count > 0) SelectSenderSettings = SenderCollection[0];
             SelectMessageSend = MessageCollection.FirstOrDefault();
             SelectSenderSend = SenderCollection.FirstOrDefault();
+            //MessageCollection.CollectionChanged
             //MessageBox.Show($"{ProgramData.GetCountInstances}");
         }
 

@@ -16,6 +16,7 @@ namespace MailSender.Data
 
         public void Initialize()
         {
+            //_db.Database.EnsureCreated();
             _db.Database.Migrate();
 #if DEBUG
             InitializeMessage();
