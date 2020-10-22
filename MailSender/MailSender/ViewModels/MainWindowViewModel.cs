@@ -7,6 +7,7 @@ using MailSender.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -97,8 +98,17 @@ namespace MailSender.ViewModels
             if (SenderCollection.Count > 0) SelectSenderSettings = SenderCollection[0];
             SelectMessageSend = MessageCollection.FirstOrDefault();
             SelectSenderSend = SenderCollection.FirstOrDefault();
+            //foreach (var item in MessageCollection)
+            //{
+            //    item.PropertyChanged += Message_Changed;
+            //}
             //MessageCollection.CollectionChanged
             //MessageBox.Show($"{ProgramData.GetCountInstances}");
+        }
+
+        private void Message_Changed(object sender, PropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private ObservableCollection<Recipient> _recipients = new ObservableCollection<Recipient>();
