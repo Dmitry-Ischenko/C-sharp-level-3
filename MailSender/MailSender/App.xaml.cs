@@ -37,14 +37,20 @@ namespace MailSender
             services.AddSingleton<ProgramData>();
             services.AddTransient<IMailService, SmtpMailService>();
             services.AddSingleton<IEncryptorService, Rfc2898Encryptor>();
-            string sql_string = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|Database1.mdf;Integrated Security=True";
-            services.AddDbContext<MailSenderDB>(opt => opt.UseSqlServer(sql_string));
+            //string sql_string = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|Database1.mdf;Integrated Security=True";
+            services.AddDbContext<MailSenderDB>(opt => opt.UseSqlite("Filename=MySupperDataBase.db"));
             services.AddSingleton<IStore<Recipient>, RecipientsStoreInDB>();
             services.AddSingleton<IStore<Message>, MessagesStoreInDB>();
             services.AddSingleton<IStore<Sender>, SenderStoreInDB>();
+            services.AddTransient<MailSenderDBInitializer>();
         }
 
         public static IServiceProvider Services => Hosting.Services;
 
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            Services.GetRequiredService<MailSenderDBInitializer>().Initialize();
+            base.OnStartup(e);
+        }
     }
 }

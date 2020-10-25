@@ -28,8 +28,9 @@ namespace MailSender.ViewModels
             var sender = p as Sender ?? SelectSenderSettings;
             if (sender is null) return;
 
+            __SenderStore.Delete(sender.Id);
             SenderCollection.Remove(sender);
-            SelectSenderSettings = SenderCollection.FirstOrDefault();
+            SelectSenderSettings = SenderCollection.FirstOrDefault();            
         }
         #endregion
 
@@ -64,6 +65,7 @@ namespace MailSender.ViewModels
                     SelectSenderSettings.Password = Password;
                 }
             }
+            __SenderStore.Update(SelectSenderSend);
         }
         #endregion
 
@@ -77,9 +79,10 @@ namespace MailSender.ViewModels
 
         private void OnAddSenderCommandExecuted(object p)
         {
-            var sender = new Sender();
+            var sender = __SenderStore.Add(new Sender());
             SenderCollection.Add(sender);
             SelectSenderSettings = sender;
+            __SenderStore.Add(sender);
         }
         #endregion
 
@@ -93,7 +96,7 @@ namespace MailSender.ViewModels
 
         private void OnAddMessageCommandExecuted(object p)
         {
-            var message = new Message();
+            var message = __MessageStore.Add(new Message());
             MessageCollection.Add(message);
             SelectedMessageInMessadgeList = message;
         }
@@ -109,8 +112,34 @@ namespace MailSender.ViewModels
 
         private void OnDeleteMessageCommandExecuted(object p)
         {
-            MessageCollection.Remove(SelectedMessageInMessadgeList);
+            __MessageStore.Delete(SelectedMessageInMessadgeList.Id);
+            MessageCollection.Remove(SelectedMessageInMessadgeList);            
             SelectedMessageInMessadgeList = MessageCollection.FirstOrDefault();
+        }
+        #endregion
+
+        #region Сохранить изменения в письме
+        private ICommand _SaveMessageCommand;
+
+        public ICommand SaveMessageCommand => _SaveMessageCommand
+            ??= new LambdaCommand(OnSaveMessageCommandExecuted, CanSaveMessageCommandExecute);
+
+        private bool CanSaveMessageCommandExecute(object p)
+        {
+            if (SelectedMessageInMessadgeList is null) return false;
+            else return true;
+        }
+
+        private void OnSaveMessageCommandExecuted(object p)
+        {
+            var value = (object[])p;
+            var Subject = (string)value[0];
+            var Body = (string)value[1];
+            if (SelectedMessageInMessadgeList is null) return;
+
+            SelectedMessageInMessadgeList.Subject = Subject;
+            SelectedMessageInMessadgeList.Body = Body;
+            __MessageStore.Update(SelectedMessageInMessadgeList);
         }
         #endregion
 

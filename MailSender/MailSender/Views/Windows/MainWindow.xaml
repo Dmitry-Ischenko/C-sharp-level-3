@@ -119,16 +119,15 @@
                     <GroupBox Header="Получатели">
                         <DockPanel>
                             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                <Button Content="Сохранить как" IsEnabled="False"/>
-                                <Button Content="Добавить из файла" IsEnabled="False"/>
-                                <Button Content="Загрузить из файла" IsEnabled="False"/>
-                                <Button Content="Очистить" IsEnabled="False"/>
+                                <Button Content="Сохранить" IsEnabled="False" Margin="2"/>
+                                <Button Content="Обновить" IsEnabled="False" Margin="2"/>
+                                <Button Content="Загрузить из файла" IsEnabled="False" Margin="2"/>
                             </StackPanel>
                             <DataGrid AutoGenerateColumns="False" 
                                       GridLinesVisibility="Vertical"
                                       AlternatingRowBackground="LightBlue"
                                       VerticalGridLinesBrush="Gray"
-                                      ItemsSource="{Binding RecipientCollection}" >
+                                      ItemsSource="{Binding RecipientCollection}">
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn Header="Вкл" Binding="{Binding Active}"/>
                                     <DataGridTextColumn Header="Имя получателя" Binding="{Binding Name}" Width="1*"/>
@@ -252,16 +251,24 @@
                     <GroupBox Header="Редактор">
                         <DockPanel>
                             <GroupBox Header="Заголовок" DockPanel.Dock="Top">
-                                <TextBox Text="{Binding SelectedItem.Subject, ElementName=MessagesList, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Name="MessageSubject" Text="{Binding SelectedItem.Subject, ElementName=MessagesList, Mode=OneWay}"/>
                             </GroupBox>
                             <GroupBox Header="тело письма">
                                 <DockPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
-                                        <Button Margin="2" Command="{Binding AddMessageCommand}">Добавить</Button>
                                         <Button Margin="2" Command="{Binding DeleteMessageCommand}">Удалить</Button>
+                                        <Button Margin="2" Command="{Binding AddMessageCommand}">Добавить</Button>
+                                        <Button Margin="2" Command="{Binding SaveMessageCommand}" Content="Сохранить">
+                                            <Button.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource SenderConvertor}" >
+                                                    <Binding ElementName="MessageSubject" Path="Text"/>
+                                                    <Binding ElementName="MessageBody" Path="Text"/>
+                                                </MultiBinding>
+                                            </Button.CommandParameter>
+                                        </Button>
                                     </StackPanel>
-                                    <TextBox AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
-                                         Text="{Binding SelectedItem.Body, ElementName=MessagesList}"/>
+                                    <TextBox Name="MessageBody" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                                         Text="{Binding SelectedItem.Body, ElementName=MessagesList,Mode=OneWay}"/>
                                 </DockPanel>
                                 
                             </GroupBox>

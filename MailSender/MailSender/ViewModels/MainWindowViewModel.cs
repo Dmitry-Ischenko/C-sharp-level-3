@@ -7,6 +7,8 @@ using MailSender.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -19,6 +21,10 @@ namespace MailSender.ViewModels
         private ObservableCollection<Sender> _SenderCollection;
         private ObservableCollection<Recipient> _RecipientCollection;
         private ObservableCollection<Message> _MessageCollection;
+
+        private readonly IStore<Recipient> __RecipientStore;
+        private readonly IStore<Message> __MessageStore;
+        private readonly IStore<Sender> __SenderStore;
 
         public ObservableCollection<Sender> SenderCollection
         {
@@ -83,6 +89,9 @@ namespace MailSender.ViewModels
             IStore<Message> MessageStore,
             IStore<Sender> SenderStore)
         {
+            __MessageStore = MessageStore;
+            __RecipientStore = RecipientStore;
+            __SenderStore = SenderStore;
             _MailService = MailService;
             SenderCollection = new ObservableCollection<Sender>(SenderStore.GetAll());
             RecipientCollection = new ObservableCollection<Recipient>(RecipientStore.GetAll());
@@ -90,7 +99,59 @@ namespace MailSender.ViewModels
             if (SenderCollection.Count > 0) SelectSenderSettings = SenderCollection[0];
             SelectMessageSend = MessageCollection.FirstOrDefault();
             SelectSenderSend = SenderCollection.FirstOrDefault();
-            //MessageBox.Show($"{ProgramData.GetCountInstances}");
+            foreach (var item in RecipientCollection)
+            {
+                item.PropertyChanged += RecipientPropertyChanged;
+            }
+            RecipientCollection.CollectionChanged += RecipientCollectionChanged;
+        }
+
+        private void RecipientCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Remove:
+                    {
+
+                        if (e.OldItems.SyncRoot is System.Collections.ICollection OldItems)
+                        {
+                            foreach (var item in OldItems)
+                            {
+                                if (item is Recipient _recipient)
+                                {
+                                    __RecipientStore.Delete(_recipient.Id);
+                                }
+                            }
+                        }                      
+                        break;
+                    }
+                case NotifyCollectionChangedAction.Add:
+                    {
+                        if (e.NewItems.SyncRoot is System.Collections.ICollection NewItems)
+                        {
+                            foreach (var item in NewItems)
+                            {
+                                if (item is Recipient recipient)
+                                {
+                                    var id = __RecipientStore.Add(recipient).Id;
+                                    recipient.Id = id;
+                                    recipient.PropertyChanged += RecipientPropertyChanged;
+                                }
+                            }
+                        }
+                        break;
+                    }
+            }
+
+
+        }
+
+        private void RecipientPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is Recipient recipient)
+            {
+                __RecipientStore.Update(recipient);
+            }            
         }
 
         private ObservableCollection<Recipient> _recipients = new ObservableCollection<Recipient>();
